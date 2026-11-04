@@ -231,21 +231,36 @@ static void test_stack_array(void)
 	StackA_T s = NULL;
 	int i;
 	int *p = NULL;
+	int ret = 0;
 
-	s = MODULE_FUN_NAME(StackA, new)(STACKA_ITEM_LEN + 1, sizeof(int));
+	s = MODULE_FUN_NAME(StackA, new)(STACKA_ITEM_LEN, sizeof(int));
 	if (NULL == s)
 		return ;
 
+for (int k = 0; k < 10; k++)
+{
 	for (i = 0; i < STACKA_ITEM_LEN; i++)
 	{
-		MODULE_FUN_NAME(StackA, push)(s, &i);
+		ret = MODULE_FUN_NAME(StackA, push)(s, &i);
+		if (ret != 0)
+		{
+			printf("push error %d, %d\n", ret, i);
+		}
 	}
 
+	i = 1;
 	while (MODULE_FUN_NAME(StackA, isEmpty)(s) == 0)
 	{
-		MODULE_FUN_NAME(StackA, pop)(s, (void **)&p);
-		fprintf(stdout, "value: %d\n", *p);
+		ret = MODULE_FUN_NAME(StackA, pop)(s, (void **)&p);
+		if (ret != 0)
+		{
+			printf("pop error %d\n", ret);
+		}
+		if (*p != STACKA_ITEM_LEN - i)
+			fprintf(stdout, "error %d value: %d\n", i, *p);
+		i++;
 	}
+}
 
 	MODULE_FUN_NAME(StackA, free)(&s);
 }
@@ -1972,6 +1987,8 @@ static void test_stack(void)
 
 	s = MODULE_FUN_NAME(Stack, new)(STACK_ITEM_LEN);
 
+for (int k = 0; k < 10; k++)
+{
 	for (int i = 0; i < STACK_ITEM_LEN; i++)
 	{
 		ret = MODULE_FUN_NAME(Stack, push)(s, (void *)i);
@@ -1993,6 +2010,7 @@ static void test_stack(void)
 			fprintf(stdout, "pop i: %d, error, value: %d\n", i, (int)value);
 		}
 	}
+}
 
 	MODULE_FUN_NAME(Stack, free)(&s);
 }
@@ -2348,7 +2366,7 @@ struct test_routine my_test_routines[] =
 //		{test_queue_link, "queue_link"},	// ko
 //		{test_stack_link, "stack_link"},	// ko
 //		{test_queue_array, "queue_array"},	// ko
-//		{test_stack_array, "stack_array"},	// ko
+		{test_stack_array, "stack_array"},	// ko
 //		{test_ap, "ap"},					// kko
 //		{test_arena, "arena"},				// ko
 //		{test_threadPool, "threadPool"},	// ko

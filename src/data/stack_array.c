@@ -99,9 +99,13 @@ int MODULE_FUN_NAME(StackA, push)(T s, void *x)
 	{
 		MODULE_FUN_NAME(Array, put)(s->array, s->num, x);
 		s->num++;
+		return 0;
 	}
 	else
+	{
+//		printf("%s: num: %d\n", __func__, s->num);
 		return -1;
+	}
 }
 
 /*

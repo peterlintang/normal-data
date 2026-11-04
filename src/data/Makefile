@@ -56,7 +56,8 @@ DATA_SRCS := ./ap.c			\
 		./aes/ofb.c		\
 		./aes/pcbc.c		\
 		./aes/aes.c		\
-		./mysql.c
+		./buffer_data.c		\
+#		./mysql.c
 
 
 DATA_OBJS := ./ap.o			\
@@ -104,7 +105,8 @@ DATA_OBJS := ./ap.o			\
 		./aes/ofb.o		\
 		./aes/pcbc.o		\
 		./aes/aes.o		\
-		./mysql.o
+		./buffer_data.o		\
+#		./mysql.o
 
 
 all: $(LIBS)
