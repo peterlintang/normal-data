@@ -1,0 +1,139 @@
+/*************************************
+ *
+ * filename:	stack_link.c
+ * description:	use the double directions link list
+ * 		to implement the stack data struture
+ * author:
+ * date:		2019-12-20
+ * version:		0.0.1
+ *
+ * interfaces:
+ *
+ *************************************/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+#include "dlist.h"
+
+#include "stack_link.h"
+
+#define T StackL_T
+#define LIST ListD_T
+#define NODE ListDNode_T
+
+struct T {
+	LIST stack;
+};
+
+
+/*
+ * name: MODULE_FUN_NAME(StackL, new)
+ * description: create a new stack
+ * return value: return the pointer to stack
+ * args: void
+ */
+T MODULE_FUN_NAME(StackL, new)(void)
+{
+	T s = (T)calloc(1, sizeof(*s));
+	if (s)
+	{
+		s->stack = MODULE_FUN_NAME(ListD, new)();
+		if (NULL == s->stack)
+		{
+			free(s);
+			s = NULL;
+		}
+	}
+
+	return s;
+}
+
+/*
+ * name: MODULE_FUN_NAME(StackL, free)
+ * description: free the stack
+ * return value: void
+ * args: @q pointer to stack
+ * 		@withdata: 1: means free user's data too
+ * 					0: menas not free user's data
+ */
+void MODULE_FUN_NAME(StackL, free)(T *s)
+{
+	void *p = NULL;
+
+	assert(s);
+	assert(*s);
+
+	while (MODULE_FUN_NAME(StackL, pop)(*s, &p) == 0)
+	{
+	}
+
+	MODULE_FUN_NAME(ListD, free)(&(*s)->stack);
+	*s = NULL;
+}
+
+/*
+ * name: MODULE_FUN_NAME(StackL, push)
+ * description: push @x at the end of stack
+ * return value: 0: push success
+ * 				-1: no mem
+ * args: @q pointer to stack
+ * 		@x data to push in stack
+ */
+int MODULE_FUN_NAME(StackL, push)(T s, void *x)
+{
+	NODE node = NULL;
+
+	assert(s);
+
+	node = MODULE_FUN_NAME(ListDNode, new)(x);
+	if (NULL == node)
+		return -1;
+
+	MODULE_FUN_NAME(ListD, insert)(s->stack, node);
+	return 0;
+}
+
+/*
+ * name: MODULE_FUN_NAME(StackL, pop)
+ * description: pop the end of the stack
+ * return value: 0 : pop success
+ * 				-1 : error (maybe stack is empty)
+ * args: @q pointer to stack
+ * 		@x pointer's pointer to store the return value
+ */
+int MODULE_FUN_NAME(StackL, pop)(T s, void **x)
+{
+	NODE node = NULL;
+
+	assert(s);
+	assert(x);
+
+	node = MODULE_FUN_NAME(ListD, tail)(s->stack);
+	if (NULL == node)
+		return -1;
+
+	MODULE_FUN_NAME(ListD, remove)(s->stack, node);
+	*x = node->priv;
+	MODULE_FUN_NAME(ListDNode, free)(&node);
+
+	return 0;
+}
+
+/*
+ * name: MODULE_FUN_NAME(StackL, isEmpty)
+ * description: is stack is empty or not
+ * return value: 1: stack is empty
+ * 				0 : stack is not empty
+ * args: @q pointer to stack
+ */
+int MODULE_FUN_NAME(StackL, isEmpty)(T s)
+{
+	assert(s);
+
+	return MODULE_FUN_NAME(ListD, isEmpty)(s->stack);
+}
+
+
+
