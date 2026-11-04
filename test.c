@@ -59,14 +59,24 @@ static void test_dlist(void)
 			i > 0;
 			i--, node = MODULE_FUN_NAME(ListD, next)(node))
 	{
-		fprintf(stdout, "i: %d, value: %d\n", i, (int)node->priv);
+		if ((int)node->priv != (DLIST_ITEM_LEN - i + 1))
+			fprintf(stdout, "i: %d, value: %d\n", i, (int)node->priv);
 	}
 
-	while (node = MODULE_FUN_NAME(ListD, head)(list))
+	int count = DLIST_ITEM_LEN;
+	while (node = MODULE_FUN_NAME(ListD, tail)(list))
 	{
-		fprintf(stdout, "value: %d\n", (int)node->priv);
+		if ((int)node->priv != count)
+			fprintf(stdout, "value: %d\n", (int)node->priv);
+		count--;
 		MODULE_FUN_NAME(ListD, remove)(list, node);
 		MODULE_FUN_NAME(ListDNode, free)(&node);
+	}
+
+	printf("count: %d\n", MODULE_FUN_NAME(ListD, count)(list));
+	if (MODULE_FUN_NAME(ListD, isEmpty)(list) == 0)
+	{
+		printf("not empty\n");
 	}
 
 	MODULE_FUN_NAME(ListD, free)(&list);
@@ -2362,7 +2372,7 @@ struct test_routine {
 struct test_routine my_test_routines[] = 
 {
 //		{test_bit, "bit"},					// ko
-//		{test_dlist, "dlist"},				// ko
+		{test_dlist, "dlist"},				// ko
 //		{test_queue_link, "queue_link"},	// ko
 //		{test_stack_link, "stack_link"},	// ko
 //		{test_queue_array, "queue_array"},	// ko
