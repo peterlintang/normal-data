@@ -126,6 +126,7 @@ static void test_stack_link(void)
 	StackL_T s = NULL;
 	int i;
 	int *p = NULL;
+	int count = 0;
 
 	s = MODULE_FUN_NAME(StackL, new)();
 	if (NULL == s)
@@ -139,7 +140,9 @@ static void test_stack_link(void)
 	while (MODULE_FUN_NAME(StackL, isEmpty)(s) == 0)
 	{
 		MODULE_FUN_NAME(StackL, pop)(s, (void **)&p);
-		fprintf(stdout, "value: %d\n", (int)p);
+		if ((int)p != STACK_LINK_ITEM_LEN - count - 1)
+			fprintf(stdout, "value: %d\n", (int)p);
+		count++;
 	}
 
 	MODULE_FUN_NAME(StackL, free)(&s);
@@ -328,8 +331,10 @@ static void test_arena(void)
 			for (int i = 0; i < TEST_INT_NUM; i++)
 				p[i] = i + 1000;
 			
+			/*
 			for (int i = 0; i < TEST_INT_NUM; i++)
 				fprintf(stdout, "i: %d\n", p[i]);
+				*/
 			
 			}
 		}
@@ -342,11 +347,11 @@ static void test_arena(void)
 #include "thread_pool.h"
 static void pool_test_cb(void *cl)
 {
-	fprintf(stdout, "%d: hello world: %d\n", pthread_self(), (int)cl);
+//	fprintf(stdout, "%d: hello world: %d\n", pthread_self(), (int)cl);
 }
 static void test_threadPool(void)
 {
-#define THREADPOOL_ITEM_LEN	10240000
+#define THREADPOOL_ITEM_LEN	102400
 	int i;
 	int ret = 0;
 	ThreadPool_T p = NULL;
@@ -398,21 +403,21 @@ static void test_array(void)
 	for (int i = 0; i < ARRAY_TEST_ITEMS; i++)
 	{
 		*((double *)MODULE_FUN_NAME(Array, get)(array, i)) = i + 1.0;
-		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(array, i)));
+		//fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(array, i)));
 	}
 	Array_T copy;
 	copy = MODULE_FUN_NAME(Array, copy)(array, 512);
 	fprintf(stdout, "len: %d, size: %d\n", MODULE_FUN_NAME(Array, length)(copy), MODULE_FUN_NAME(Array, size)(copy));
 	for (int i = 0; i < MODULE_FUN_NAME(Array, length)(copy); i++)
 	{
-		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(copy, i)));
+//		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(copy, i)));
 	}
 
 	MODULE_FUN_NAME(Array, resize)(copy, 500);
 	fprintf(stdout, "len: %d, size: %d\n", MODULE_FUN_NAME(Array, length)(copy), MODULE_FUN_NAME(Array, size)(copy));
 	for (int i = 0; i < MODULE_FUN_NAME(Array, length)(copy); i++)
 	{
-		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(copy, i)));
+//		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(copy, i)));
 	}
 }
 
@@ -421,7 +426,7 @@ static void test_array(void)
 
 static int apply(const void *member, void *cl)
 {
-	fprintf(stdout, "%d\n", (int)member);
+//	fprintf(stdout, "%d\n", (int)member);
 	return 0;
 }
 
@@ -518,7 +523,7 @@ static void test_set(void)
 	array = MODULE_FUN_NAME(Set, toArray)(set, NULL);
 	for (int i = 0; array[i] != NULL; i++)
 	{
-		fprintf(stdout, "i: %d <--> value: %d\n", i, (int)(array[i]));
+//		fprintf(stdout, "i: %d <--> value: %d\n", i, (int)(array[i]));
 	
 	}
 
@@ -547,7 +552,7 @@ static int set_list_cmp(void *priv, void *arg)
 
 static int set_list_print(void *priv, void *arg)
 {
-	fprintf(stdout, "%d\n", (int)priv);
+	//fprintf(stdout, "%d\n", (int)priv);
 	return 0;
 }
 
@@ -2371,18 +2376,18 @@ struct test_routine {
 
 struct test_routine my_test_routines[] = 
 {
-//		{test_bit, "bit"},					// ko
+		{test_bit, "bit"},					// ko
 		{test_dlist, "dlist"},				// ko
-//		{test_queue_link, "queue_link"},	// ko
-//		{test_stack_link, "stack_link"},	// ko
-//		{test_queue_array, "queue_array"},	// ko
+		{test_queue_link, "queue_link"},	// ko
+		{test_stack_link, "stack_link"},	// ko
+		{test_queue_array, "queue_array"},	// ko
 		{test_stack_array, "stack_array"},	// ko
-//		{test_ap, "ap"},					// kko
-//		{test_arena, "arena"},				// ko
-//		{test_threadPool, "threadPool"},	// ko
-//		{test_array, "array"},				// ko
-//		{test_set, "set"},					// ko
-//		{test_set_list, "set-list"},					// ko
+		{test_ap, "ap"},					// kko
+		{test_arena, "arena"},				// ko
+		{test_threadPool, "threadPool"},	// ko
+		{test_array, "array"},				// ko
+		{test_set, "set"},					// ko
+		{test_set_list, "set-list"},					// ko
 //		{test_table, "table"},				// ko
 //		{test_seq, "seq"},					// ko
 //		{test_ring, "ring"},				// kko
