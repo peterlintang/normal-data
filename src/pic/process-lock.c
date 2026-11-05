@@ -45,12 +45,12 @@ struct T {
  * 		pointer	to the shared memory in the process address
  */
 /*
- * name: MODULE_FUN_NAME(ProcessLockCond, create)
+ * name: MODULE_FUN_NAME(ProcessLock, create)
  * description: create a memory shared lock and cond
  * return value: 
  * args: @: 
  */
-T MODULE_FUN_NAME(ProcessLockCond, create)(void *ptr, int size)
+T MODULE_FUN_NAME(ProcessLock, create)(void *ptr, int size)
 {
 	T lockaddr = NULL;
 	pthread_mutexattr_t attr;
@@ -77,12 +77,12 @@ T MODULE_FUN_NAME(ProcessLockCond, create)(void *ptr, int size)
  * 		0	ok
  */
 /*
- * name: MODULE_FUN_NAME(ProcessLockCond, destroy)
+ * name: MODULE_FUN_NAME(ProcessLock, destroy)
  * description: destroy a memory shared lock and cond
  * return value: 
  * args: @: 
  */
-int MODULE_FUN_NAME(ProcessLockCond, destroy)(T *plc)
+int MODULE_FUN_NAME(ProcessLock, destroy)(T *plc)
 {
 	T plock = NULL;
 
@@ -104,12 +104,12 @@ int MODULE_FUN_NAME(ProcessLockCond, destroy)(T *plc)
  * 		0	ok
  */
 /*
- * name: MODULE_FUN_NAME(ProcessLockCond, get)
+ * name: MODULE_FUN_NAME(ProcessLock, get)
  * description: get a memory shared lock from process address
  * return value: 
  * args: @: 
  */
-int MODULE_FUN_NAME(ProcessLockCond, getLock)(T plc)
+int MODULE_FUN_NAME(ProcessLock, getLock)(T plc)
 {
 	assert(plc != NULL);
 
@@ -123,12 +123,12 @@ int MODULE_FUN_NAME(ProcessLockCond, getLock)(T plc)
  * 		0	ok
  */
 /*
- * name: MODULE_FUN_NAME(ProcessLockCond, release)
+ * name: MODULE_FUN_NAME(ProcessLock, release)
  * description: release a memory shared lock from process address
  * return value: 
  * args: @: 
  */
-int MODULE_FUN_NAME(ProcessLockCond, releaseLock)(T plc)
+int MODULE_FUN_NAME(ProcessLock, releaseLock)(T plc)
 {
 	assert(plc != NULL);
 
