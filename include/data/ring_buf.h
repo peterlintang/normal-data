@@ -29,9 +29,9 @@ T MODULE_FUN_NAME(Ringbuf, create)(unsigned int num);
 
 int MODULE_FUN_NAME(Ringbuf, destroy)(T *pr);
 
-int MODULE_FUN_NAME(Ringbuf, empty)(T r);
+int MODULE_FUN_NAME(Ringbuf, is_empty)(T r);
 
-int MODULE_FUN_NAME(Ringbuf, full)(T r);
+int MODULE_FUN_NAME(Ringbuf, is_full)(T r);
 
 int MODULE_FUN_NAME(Ringbuf, left_space)(T r);
 
