@@ -51,6 +51,8 @@ T MODULE_FUN_NAME(Ringbuf, init)(unsigned char *ptr, unsigned int len)
 	T r = NULL;
 
 	r = (T)ptr;
+	assert(len > sizeof(*r));
+
 	r->buf_max = len - sizeof(*r);
 	r->read_index = 0;
 	r->write_index = 0;
