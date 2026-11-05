@@ -1468,12 +1468,12 @@ void destroy_memory_pool(MemoryPool *mp) {
 static void test_rb(void)
 {
 #define YY	0
-#define RB_ITEM_LEN	10240000
+#define RB_ITEM_LEN	102400000
 	RB_Tree tree = NULL;
 	RB_Node node = NULL;
 
 	MemoryPool *mp = NULL;
-	mp = init_memory_pool(10240000);
+	mp = init_memory_pool(RB_ITEM_LEN);
 	if (mp == NULL)
 	{
 		printf("%s: no mem\n", __func__);
@@ -1490,8 +1490,16 @@ static void test_rb(void)
 	{
 #if YY
 		node = (RB_Node)calloc(1, sizeof(*node));
+		if (node == NULL)
+		{
+			printf("no mem\n");
+		}
 #else
 		node = pool_alloc_node(mp);
+		if (node == NULL)
+		{
+			printf("no mem\n");
+		}
 #endif
 #if YY
 		node->priv = (void *)((random()) % RB_ITEM_LEN + 1);
@@ -2376,24 +2384,24 @@ struct test_routine {
 
 struct test_routine my_test_routines[] = 
 {
-		{test_bit, "bit"},					// ko
-		{test_dlist, "dlist"},				// ko
-		{test_queue_link, "queue_link"},	// ko
-		{test_stack_link, "stack_link"},	// ko
-		{test_queue_array, "queue_array"},	// ko
-		{test_stack_array, "stack_array"},	// ko
-		{test_ap, "ap"},					// kko
-		{test_arena, "arena"},				// ko
-		{test_threadPool, "threadPool"},	// ko
-		{test_array, "array"},				// ko
-		{test_set, "set"},					// ko
-		{test_set_list, "set-list"},					// ko
+//		{test_bit, "bit"},					// ko
+//		{test_dlist, "dlist"},				// ko
+//		{test_queue_link, "queue_link"},	// ko
+//		{test_stack_link, "stack_link"},	// ko
+//		{test_queue_array, "queue_array"},	// ko
+//		{test_stack_array, "stack_array"},	// ko
+//		{test_ap, "ap"},					// kko
+//		{test_arena, "arena"},				// ko
+//		{test_threadPool, "threadPool"},	// ko
+//		{test_array, "array"},				// ko
+//		{test_set, "set"},					// ko
+//		{test_set_list, "set-list"},					// ko
 //		{test_table, "table"},				// ko
 //		{test_seq, "seq"},					// ko
 //		{test_ring, "ring"},				// kko
 //		{test_xp, "xp"},					// ko
 //		{test_ap2, "ap2"},					// ko
-//		{test_rb, "rb_tree"},				// ko
+		{test_rb, "rb_tree"},				// ko
 //		{test_fib, "fib"},					// ko
 //		{test_os_rank, "os_rank"},					// 
 //		{test_interval_tree, "interval_tree"},	// ko
