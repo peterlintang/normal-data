@@ -42,6 +42,10 @@ GraphA_T GA_create(
 	assert(get_node);
 
 	fp = fopen(filename, "r");
+	if (fp == NULL)
+	{
+		return NULL;
+	}
 
 	g = get_graph(fp);
 	if (g == NULL)

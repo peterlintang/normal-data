@@ -166,6 +166,7 @@ int MODULE_FUN_NAME(Array, resize)(T array, int length)
 	else
 	{
 		free(array->array);
+		array->array = NULL;
 	}
 
 	array->length = length;
@@ -189,6 +190,9 @@ T MODULE_FUN_NAME(Array, copy)(T array, int length)
 	assert(length >= 0);
 
 	copy = MODULE_FUN_NAME(Array, new)(length, array->size);
+	if (copy == NULL)
+		return NULL;
+
 	if (copy->length >= array->length && array->length > 0)
 	{
 		memcpy(copy->array, array->array, array->length * array->size);
