@@ -52,7 +52,10 @@ T MODULE_FUN_NAME(StackA, new)(int length, int size)
 			free(stack);
 			stack = NULL;
 		}
-		stack->num = 0;
+		else
+		{
+			stack->num = 0;
+		}
 	}
 
 	return stack;

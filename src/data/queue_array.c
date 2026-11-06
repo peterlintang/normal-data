@@ -38,6 +38,9 @@ struct T {
  */
 T MODULE_FUN_NAME(QueueA, new)(int length, int size)
 {
+	assert(length > 0);
+	assert(size > 0);
+
 	T q = (T)calloc(1, sizeof(*q));
 	if (q)
 	{
@@ -47,8 +50,11 @@ T MODULE_FUN_NAME(QueueA, new)(int length, int size)
 			free(q);
 			q = NULL;
 		}
-		q->first = 0;
-		q->last = 0;
+		else
+		{
+			q->first = 0;
+			q->last = 0;
+		}
 	}
 
 	return q;
