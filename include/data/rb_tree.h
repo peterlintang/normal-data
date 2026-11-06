@@ -112,7 +112,7 @@ void MODULE_FUN_NAME(RB_Tree, free)(T *tree);
  * @x:		树中元素
  * @nil:	空元素
  */
-void MODULE_FUN_NAME(RB_Tree, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(RB_Tree, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
 
 /*
  * 前序遍历从@x开始的树(以x为根)
@@ -120,7 +120,7 @@ void MODULE_FUN_NAME(RB_Tree, inorder_walk)(T tree, NODE x, int (*map)(void *, v
  * @x:		树中元素
  * @nil:	空元素
  */
-void MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
 
 /*
  * 后序遍历从@x开始的树(以x为根)
@@ -128,7 +128,7 @@ void MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, 
  * @x:		树中元素
  * @nil:	空元素
  */
-void MODULE_FUN_NAME(RB_Tree, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(RB_Tree, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg);
 
 #undef NODE
 #undef T

@@ -128,7 +128,7 @@ static NODE tree_maximum(T tree, NODE x)
 	if (maximax < count)
 	{
 		maximax = count;
-		fprintf(stdout, "maximum: %d\n", count);
+//		fprintf(stdout, "maximum: %d\n", count);
 	}
 	return x;
 }
@@ -531,25 +531,28 @@ void MODULE_FUN_NAME(RB_Tree, free)(T *treep)
 
 
 
-void MODULE_FUN_NAME(RB_Tree, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(RB_Tree, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
 	if (x != tree->nil)
 	{
-		MODULE_FUN_NAME(RB_Tree, inorder_walk)(tree, x->left, map, arg);
+		if (MODULE_FUN_NAME(RB_Tree, inorder_walk)(tree, x->left, map, arg))
+			return 1;
 		if (map)
 		{
 			if (map(x, arg) != 0) 
-				return ;
+				return 1;
 		}
 //		fprintf(stdout, "priv: %p, color: %s \n", 
 //						x->priv, x->color == RED ? "RED" : "BLACK");
-		MODULE_FUN_NAME(RB_Tree, inorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(RB_Tree, inorder_walk)(tree, x->right, map, arg))
+			return 1;
 	}
+	return 0;
 }
 
-void MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
@@ -557,33 +560,39 @@ void MODULE_FUN_NAME(RB_Tree, preorder_walk)(T tree, NODE x, int (*map)(void *, 
 	{
 		if (map) 
 		{
-			if (map(x->priv, arg) != 0)
-				return ;
+			if (map(x, arg) != 0)
+				return 1;
 		}
 //		fprintf(stdout, "priv: %p, color: %s \n", 
 //						x->priv, x->color == RED ? "RED" : "BLACK");
-		MODULE_FUN_NAME(RB_Tree, preorder_walk)(tree, x->left, map, arg);
-		MODULE_FUN_NAME(RB_Tree, preorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(RB_Tree, preorder_walk)(tree, x->left, map, arg))
+			return 1;
+		if (MODULE_FUN_NAME(RB_Tree, preorder_walk)(tree, x->right, map, arg))
+			return 1;
 	}
+	return 0;
 }
 
 
-void MODULE_FUN_NAME(RB_Tree, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(RB_Tree, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
 	if (x != tree->nil)
 	{
-		MODULE_FUN_NAME(RB_Tree, postorder_walk)(tree, x->left, map, arg);
-		MODULE_FUN_NAME(RB_Tree, postorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(RB_Tree, postorder_walk)(tree, x->left, map, arg))
+			return 1;
+		if (MODULE_FUN_NAME(RB_Tree, postorder_walk)(tree, x->right, map, arg))
+			return 1;
 		if (map) 
 		{
-			if (map(x->priv, arg) != 0) 
-				return ;
+			if (map(x, arg) != 0) 
+				return 1;
 		}
 //		fprintf(stdout, "priv: %p, color: %s \n", 
 //						x->priv, x->color == RED ? "RED" : "BLACK");
 	}
+	return 0;
 }
 
 
