@@ -77,7 +77,7 @@ int MODULE_FUN_NAME(SenDlink, search)(T l, int (*cmp)(void *, void *), void *key
 		x = x->next;
 
 
-	if (x == NULL)
+	if (x == NULL || x == &(l->nil))
 		return -1;
 	else
 	{
@@ -211,6 +211,7 @@ int MODULE_FUN_NAME(SenDlink, map)(T l, int (*fun)(void *arg))
 	NODE cur = NULL;
 
 	assert(l);
+	assert(fun != NULL);
 
 	for (cur = l->nil.next; cur != &(l->nil); cur = cur->next)
 	{
