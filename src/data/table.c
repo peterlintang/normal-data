@@ -121,6 +121,7 @@ void MODULE_FUN_NAME(Table, free)(T *table)
 		}
 	}
 
+	free((*table)->buckets);
 	free(*table);
 	*table = NULL;
 }
@@ -166,10 +167,17 @@ void *MODULE_FUN_NAME(Table, put)
 	if (NULL == p)
 	{
 		p = (struct binding *)calloc(1, sizeof(*p));
-		p->key = key;
-		p->link = table->buckets[i];
-		table->buckets[i] = p;
-		table->length++;
+		if (p)
+		{
+			p->key = key;
+			p->link = table->buckets[i];
+			table->buckets[i] = p;
+			table->length++;
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 	else
 	{
@@ -294,6 +302,9 @@ void **MODULE_FUN_NAME(Table, toArray)(T table, void *end)
 	assert(table);
 
 	array = (void **)calloc(1, (2 * table->length + 1) * sizeof(*array));
+	if (array == NULL)
+		return NULL;
+
 	for (i = 0; i < table->size; i++)
 	{
 		for (p = table->buckets[i]; p; p = p->link)
