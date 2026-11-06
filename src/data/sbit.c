@@ -38,6 +38,7 @@ T MODULE_FUN_NAME(sbit, create)(unsigned int num)
 int MODULE_FUN_NAME(sbit, destroy)(T *sb)
 {
 	assert(sb != NULL);
+	assert((*sb) != NULL);
 
 	free((*sb)->bits);
 	free(*sb);
