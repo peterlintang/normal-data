@@ -273,6 +273,7 @@ void MODULE_FUN_NAME(Set, free)(T *set)
 		}
 	}
 
+	free((*set)->buckets);
 	free(*set);
 	*set = NULL;
 }
@@ -322,6 +323,9 @@ void *MODULE_FUN_NAME(Set, next)(T set, void *member)
 	for (p = set->buckets[i]; p; p = p->link)
 		if ((*set->cmp)(member, p->member) == 0)
 			break;
+
+	if (p == NULL)	// case @member is not an element of @set
+		return NULL;
 
 	p = p->link;
 
@@ -413,6 +417,9 @@ void **MODULE_FUN_NAME(Set, toArray)(T set, void *end)
 	assert(set);
 
 	array = (void **)calloc(1, (set->length + 1) * sizeof(*array));
+	if (array == NULL)
+		return NULL;
+
 	for (i = 0; i < set->size; i++)
 	{
 		for (p = set->buckets[i]; p; p = p->link)

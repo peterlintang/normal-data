@@ -100,7 +100,7 @@ void *MODULE_FUN_NAME(SetL, remove)(T set, void *priv)
 		key = node->priv;
 		MODULE_FUN_NAME(ListD, remove)(set->l, node);
 		MODULE_FUN_NAME(ListDNode, free)(&node);
-		return priv;
+		return key;
 	}
 	else
 	{
