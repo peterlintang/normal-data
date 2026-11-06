@@ -19,6 +19,8 @@ T MODULE_FUN_NAME(sbit, create)(unsigned int num)
 {
 	T bits = NULL;
 
+	assert(num > 0);
+
 	bits = (T)calloc(1, sizeof(*bits));
 	if (bits)
 	{
@@ -35,6 +37,8 @@ T MODULE_FUN_NAME(sbit, create)(unsigned int num)
 
 int MODULE_FUN_NAME(sbit, destroy)(T *sb)
 {
+	assert(sb != NULL);
+
 	free((*sb)->bits);
 	free(*sb);
 	*sb = NULL;
