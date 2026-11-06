@@ -45,7 +45,7 @@ int MODULE_FUN_NAME(sbit, set)(T sb, unsigned int index)
 {
 	int offset = 0;
 
-	assert(((sb != NULL) || (index < sb->num)));
+	assert(((sb != NULL) && (index < sb->num)));
 
 	offset = index % 8;
 	sb->bits[index >> 3] |= 1 << offset;
@@ -57,7 +57,7 @@ int MODULE_FUN_NAME(sbit, clear)(T sb, unsigned int index)
 {
 	int offset = 0;
 
-	assert(((sb != NULL) || (index < sb->num)));
+	assert(((sb != NULL) && (index < sb->num)));
 
 	offset = index % 8;
 	sb->bits[index >> 3] &= ~(1 << offset);
@@ -69,7 +69,7 @@ int MODULE_FUN_NAME(sbit, get)(T sb, unsigned int index)
 {
 	int offset = 0;
 
-	assert(((sb != NULL) || (index < sb->num)));
+	assert(((sb != NULL) && (index < sb->num)));
 
 	offset = index % 8;
 	return ((sb->bits[index >> 3]) >> offset) & 1;
