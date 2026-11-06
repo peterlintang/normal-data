@@ -67,22 +67,27 @@ void *MODULE_FUN_NAME(BTree, NodeSetPriv)(NODE node, void *priv)
 /*
  * 接口函数负责检查参数
  */
-static void inorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
+static int inorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
 {
 	if (x == NULL)
 	{
-		return ;
+		return 0;
 	}
 
-	inorder_walk(x->left, map, arg);
+	if (inorder_walk(x->left, map, arg))
+		return 1;
+
 	if (map)
 	{
 		if (map(x->key, arg) != 0)
 		{
-			return ;
+			return 1;
 		}
 	}
-	inorder_walk(x->right, map, arg);
+	if (inorder_walk(x->right, map, arg))
+		return 1;
+
+	return 0;
 }
 
 void MODULE_FUN_NAME(BTree, inorder_walk)(T tree, int (*map)(void *priv, void *arg), void *arg)
@@ -95,22 +100,26 @@ void MODULE_FUN_NAME(BTree, inorder_walk)(T tree, int (*map)(void *priv, void *a
 	}
 }
 
-void preorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
+static int preorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
 {
 	if (x == NULL)
 	{
-		return ;
+		return 0;
 	}
 
 	if (map)
 	{
 		if (map(x->key, arg) != 0)
 		{
-			return ;
+			return 1;
 		}
 	}
-	preorder_walk(x->left, map, arg);
-	preorder_walk(x->right, map, arg);
+	if (preorder_walk(x->left, map, arg))
+		return 1;
+	if (preorder_walk(x->right, map, arg))
+		return 1;
+
+	return 0;
 }
 
 void MODULE_FUN_NAME(BTree, preorder_walk)(T tree, int (*map)(void *priv, void *arg), void *arg)
@@ -124,22 +133,25 @@ void MODULE_FUN_NAME(BTree, preorder_walk)(T tree, int (*map)(void *priv, void *
 }
 
 
-void postorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
+static int postorder_walk(NODE x, int (*map)(void *priv, void *arg), void *arg)
 {
 	if (x == NULL)
 	{
-		return ;
+		return 0;
 	}
 
-	postorder_walk(x->left, map, arg);
-	postorder_walk(x->right, map, arg);
+	if (postorder_walk(x->left, map, arg))
+		return 1;
+	if (postorder_walk(x->right, map, arg))
+		return 1;
 	if (map)
 	{
 		if (map(x->key, arg) != 0)
 		{
-			return ;
+			return 1;
 		}
 	}
+	return 0;
 }
 
 void MODULE_FUN_NAME(BTree, postorder_walk)(T tree, int (*map)(void *priv, void *arg), void *arg)
@@ -359,6 +371,9 @@ NODE MODULE_FUN_NAME(BTree, delete)(T tree, NODE old)
 		y->left->parent = y;
 	}
 
+	old->parent = NULL;
+	old->left = NULL;
+	old->right = NULL;
 	return old;
 }
 
