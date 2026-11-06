@@ -397,6 +397,12 @@ void MODULE_FUN_NAME(BTree, free)(T *treep)
 {
 	assert(treep && *treep);
 
+	NODE node = NULL;
+	while ((node = MODULE_FUN_NAME(BTree, maximum)(*treep, NULL)) != NULL)
+	{
+		MODULE_FUN_NAME(BTree, delete)(*treep, node);
+		MODULE_FUN_NAME(BTree, NodeFree)(&node);
+	}
 	free(*treep);
 	*treep = NULL;
 }
