@@ -87,7 +87,7 @@ void MODULE_FUN_NAME(Pri_Queue, free)(T *q)
  * 		@prioritye
  * 		@x data to put in queue
  */
-int MODULE_FUN_NAME(Pri_Queue, push)(T q, int priority, void *x);
+int MODULE_FUN_NAME(Pri_Queue, push)(T q, int priority, void *x)
 {
 	NODE node = NULL;
 
