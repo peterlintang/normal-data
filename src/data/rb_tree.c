@@ -162,6 +162,8 @@ NODE MODULE_FUN_NAME(RB_Tree, successor)(T tree, NODE x)
 		y = y->parent;
 	}
 
+	if (y == tree->nil)
+		return NULL;
 	return y;
 }
 
@@ -182,6 +184,8 @@ NODE MODULE_FUN_NAME(RB_Tree, predecessor)(T tree, NODE x)
 		y = y->parent;
 	}
 
+	if (y == tree->nil)
+		return NULL;
 	return y;
 }
 
@@ -520,6 +524,8 @@ void MODULE_FUN_NAME(RB_Tree, free)(T *treep)
 		node = NULL;
 	}
 
+	free((*treep)->nil);
+	free(*treep);
 	*treep = NULL;
 }
 
