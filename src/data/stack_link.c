@@ -69,7 +69,7 @@ void MODULE_FUN_NAME(StackL, free)(T *s)
 	{
 	}
 
-	MODULE_FUN_NAME(ListD, free)(&(*s)->stack);
+	MODULE_FUN_NAME(ListD, free)(&((*s)->stack));
 	free(*s);
 	*s = NULL;
 }

@@ -95,6 +95,8 @@ void MODULE_FUN_NAME(ListD, free)(T *list)
 		MODULE_FUN_NAME(ListD, remove)(*list, node);
 		MODULE_FUN_NAME(ListDNode, free)(&node);
 	}
+	free(*list);
+	*list = NULL;
 }
 
 /*

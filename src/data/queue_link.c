@@ -73,7 +73,7 @@ void MODULE_FUN_NAME(QueueL, free)(T *q)
 		MODULE_FUN_NAME(ListDNode, free)(&node);
 	}
 
-	MODULE_FUN_NAME(ListD, free)(&(*q)->head);
+	MODULE_FUN_NAME(ListD, free)(&((*q)->head));
 	free(*q);
 	*q = NULL;
 }
