@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "resolve.h"
 #include "socket.h"
@@ -126,7 +127,7 @@ int MODULE_FUN_NAME(Socket, getInterfaceIp)(T_S sock, const char *ifname, char *
 	}
 
 	addr = (struct sockaddr_in *)&(ifr.ifr_addr);
-	ret = snprintf(buf, "%s", inet_ntoa(addr->sin_addr));
+	ret = snprintf(buf, 128, "%s", inet_ntoa(addr->sin_addr));
 	buf[ret] = '\0';
 
 	if (ret > len)
