@@ -86,6 +86,9 @@ NODE MODULE_FUN_NAME(InTree, iterative_search)(T tree, struct interval *in)
 			x = x->right;
 	}
 
+	if (x == tree->nil)
+		return NULL;
+
 	return x;
 }
 
@@ -646,6 +649,9 @@ T MODULE_FUN_NAME(InTree, new)(void)
 		return NULL;
 	}
 	tree->nil->color = BLACK;
+	tree->nil->left = NULL;
+	tree->nil->right = NULL;
+	tree->nil->parent = NULL;
 	tree->cmp = cmp;
 
 	return tree;
@@ -668,6 +674,8 @@ void MODULE_FUN_NAME(InTree, free)(T *treep)
 		node = NULL;
 	}
 
+	free((*treep)->nil);
+	free(*treep);
 	*treep = NULL;
 }
 
