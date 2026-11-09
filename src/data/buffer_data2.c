@@ -33,19 +33,19 @@ T buffer_data_create(int element_size, int total_elements)
 			free(bd);
 			return NULL;
 		}
-	}
 
-	bd->free_list = NULL;
-	char *buffer = bd->buffer;
-	int offset = 0;
-	struct FreeNode *node = NULL;
-	for (int i = 0; i < total_elements; i++)
-	{
-		offset = i * (element_size + sizeof(struct FreeNode));
-		node = (struct FreeNode *)(buffer + offset);
-		node->next = bd->free_list;
-		bd->free_list = node;
+		bd->free_list = NULL;
+		char *buffer = bd->buffer;
+		int offset = 0;
+		struct FreeNode *node = NULL;
+		for (int i = 0; i < total_elements; i++)
+		{
+			offset = i * (element_size + sizeof(struct FreeNode));
+			node = (struct FreeNode *)(buffer + offset);
+			node->next = bd->free_list;
+			bd->free_list = node;
 
+		}
 	}
 
 	return bd;
