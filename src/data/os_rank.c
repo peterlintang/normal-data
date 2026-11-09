@@ -590,23 +590,26 @@ void MODULE_FUN_NAME(OsRank, free)(T *treep)
 }
 
 
-void MODULE_FUN_NAME(OsRank, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(OsRank, inorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
 	if (x != tree->nil)
 	{
-		MODULE_FUN_NAME(OsRank, inorder_walk)(tree, x->left, map, arg);
+		if (MODULE_FUN_NAME(OsRank, inorder_walk)(tree, x->left, map, arg))
+			return 1;
 		if (map)
 		{
 			if (map(x, arg) != 0)
-				return ;
+				return 1;
 		}
-		MODULE_FUN_NAME(OsRank, inorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(OsRank, inorder_walk)(tree, x->right, map, arg))
+			return 1;
 	}
+	return 0;
 }
 
-void MODULE_FUN_NAME(OsRank, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(OsRank, preorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
@@ -615,28 +618,34 @@ void MODULE_FUN_NAME(OsRank, preorder_walk)(T tree, NODE x, int (*map)(void *, v
 		if (map)
 		{
 			if (map(x, arg) != 0)
-				return ;
+				return 1;
 		}
-		MODULE_FUN_NAME(OsRank, preorder_walk)(tree, x->left, map, arg);
-		MODULE_FUN_NAME(OsRank, preorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(OsRank, preorder_walk)(tree, x->left, map, arg))
+			return 1;
+		if (MODULE_FUN_NAME(OsRank, preorder_walk)(tree, x->right, map, arg))
+			return 1;
 	}
+	return 0;
 }
 
 
-void MODULE_FUN_NAME(OsRank, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
+int MODULE_FUN_NAME(OsRank, postorder_walk)(T tree, NODE x, int (*map)(void *, void *), void *arg)
 {
 	assert(tree && x);
 
 	if (x != tree->nil)
 	{
-		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->left, map, arg);
-		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->right, map, arg);
+		if (MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->left, map, arg))
+			return 1;
+		if (MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->right, map, arg))
+			return 1;
 		if (map)
 		{
 			if (map(x, arg) != 0)
-				return ;
+				return 1;
 		}
 	}
+	return 0;
 }
 
 #if 0

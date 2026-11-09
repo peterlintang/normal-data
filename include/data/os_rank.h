@@ -61,11 +61,11 @@ T MODULE_FUN_NAME(OsRank, new)(int (*cmp)(void *, void *));
 
 void MODULE_FUN_NAME(OsRank, free)(T *treep);
 
-void MODULE_FUN_NAME(OsRank, inorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(OsRank, inorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
 
-void MODULE_FUN_NAME(OsRank, preorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(OsRank, preorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
 
-void MODULE_FUN_NAME(OsRank, postorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
+int MODULE_FUN_NAME(OsRank, postorder_walk)(T tree, NODE node, int (*map)(void *, void *), void *arg);
 
 /*
  *  扩展的数据操作
