@@ -284,7 +284,7 @@ NODE MODULE_FUN_NAME(OsRank, insert)(T tree, NODE node)
 	{
 		x->size += 1;
 		y = x;
-		if (x->key > node->key)
+		if (tree->cmp(x->key, node->key) > 0)
 			x = x->left;
 		else
 			x = x->right;
@@ -293,7 +293,7 @@ NODE MODULE_FUN_NAME(OsRank, insert)(T tree, NODE node)
 	node->parent = y;
 	if (y == tree->nil)
 		tree->root = node;
-	else if (node->key < y->key)
+	else if (tree->cmp(node->key, y->key) < 0)
 		y->left = node;
 	else
 		y->right = node;
@@ -576,6 +576,7 @@ void MODULE_FUN_NAME(OsRank, free)(T *treep)
 		free(node);
 	}
 
+	free((*treep)->nil);
 	*treep = NULL;
 }
 
