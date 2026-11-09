@@ -65,7 +65,7 @@ static NODE tree_minimum(T tree, NODE x)
 	if (x == tree->nil)
 	{
 //		fprintf(stdout, "%s: nil: %p\n", __func__, x);
-		return x;
+		return NULL;
 	}
 
 	while (x->left != tree->nil)
@@ -456,6 +456,9 @@ NODE MODULE_FUN_NAME(OsRank, delete)(T tree, NODE z)
 		rb_delete_fixup(tree, x);
 	}
 
+	z->left = NULL;
+	z->right = NULL;
+	z->parent = NULL;
 	return z;
 }
 
