@@ -53,6 +53,8 @@ NODE MODULE_FUN_NAME(OsRank, iterative_search)(T tree, void *key)
 			x = x->right;
 	}
 
+	if (x == tree->nil)
+		return NULL;
 	return x;
 }
 
@@ -131,6 +133,9 @@ NODE MODULE_FUN_NAME(OsRank, successor)(T tree, NODE x)
 		y = y->parent;
 	}
 
+	if (y == tree->nil)
+		return NULL;
+
 	return y;
 }
 
@@ -150,6 +155,9 @@ NODE MODULE_FUN_NAME(OsRank, predecessor)(T tree, NODE x)
 		x = y;
 		y = y->parent;
 	}
+
+	if (y == tree->nil)
+		return NULL;
 
 	return y;
 }
@@ -577,6 +585,7 @@ void MODULE_FUN_NAME(OsRank, free)(T *treep)
 	}
 
 	free((*treep)->nil);
+	free(*treep);
 	*treep = NULL;
 }
 
@@ -620,13 +629,13 @@ void MODULE_FUN_NAME(OsRank, postorder_walk)(T tree, NODE x, int (*map)(void *, 
 
 	if (x != tree->nil)
 	{
+		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->left, map, arg);
+		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->right, map, arg);
 		if (map)
 		{
 			if (map(x, arg) != 0)
 				return ;
 		}
-		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->left, map, arg);
-		MODULE_FUN_NAME(OsRank, postorder_walk)(tree, x->right, map, arg);
 	}
 }
 
