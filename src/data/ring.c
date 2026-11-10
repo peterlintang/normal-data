@@ -213,6 +213,10 @@ void *MODULE_FUN_NAME(Ring, addhi)(T ring, void *x)
 		ring->length++;
 		return p->value = x;
 	}
+	else
+	{
+		return NULL;
+	}
 }
 
 /*
