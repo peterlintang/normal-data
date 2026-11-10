@@ -2472,6 +2472,73 @@ static void test_thread_pool(void)
 	MODULE_FUN_NAME(ThreadPool, free)(&pool);
 }
 
+#include "sbit.h"
+void test_sbit(void)
+{
+#define SBIT_ITEM_LEN	1024
+	SBit_T	sbit = NULL;
+
+	sbit = MODULE_FUN_NAME(sbit, create)(SBIT_ITEM_LEN);
+
+	for (int i = 0; i < SBIT_ITEM_LEN; i++)
+	{
+		MODULE_FUN_NAME(sbit, set)(sbit, i);
+		if (MODULE_FUN_NAME(sbit, get)(sbit, i) != 1)
+		{
+			printf("error i: %d\n", i);
+		}
+	}
+
+	for (int i = 0; i < SBIT_ITEM_LEN; i++)
+	{
+		MODULE_FUN_NAME(sbit, clear)(sbit, i);
+		if (MODULE_FUN_NAME(sbit, get)(sbit, i) != 0)
+		{
+			printf("error i: %d\n", i);
+		}
+	}
+
+
+	MODULE_FUN_NAME(sbit, destroy)(&sbit);
+}
+
+#include "ring_buf.h"
+void test_ring_buf(void)
+{
+#define RING_BUF_ITEM_LEN	1024
+	Ringbuf_T ring_buf = NULL;
+
+	ring_buf = MODULE_FUN_NAME(Ringbuf, create)(RING_BUF_ITEM_LEN);
+
+for (int k = 0; k < 10; k++)
+{
+	for (int i = 0; i < RING_BUF_ITEM_LEN; i++)
+	{
+		unsigned char data = i;
+		if (MODULE_FUN_NAME(Ringbuf, put)(ring_buf, &data, 1) != 1)
+			printf("put: %d error\n", i);
+	}
+	printf("is full: %d\n", MODULE_FUN_NAME(Ringbuf, is_full)(ring_buf));
+	printf("is empty: %d\n", MODULE_FUN_NAME(Ringbuf, is_empty)(ring_buf));
+	printf("left space: %d\n", MODULE_FUN_NAME(Ringbuf, left_space)(ring_buf));
+	printf("avail space: %d\n", MODULE_FUN_NAME(Ringbuf, available_data)(ring_buf));
+
+	for (int i = 0; i < RING_BUF_ITEM_LEN; i++)
+	{
+		unsigned char data = i;
+		if (MODULE_FUN_NAME(Ringbuf, get)(ring_buf, &data, 1) != 1)
+			printf("get: %d error\n", i);
+	}
+	printf("is full: %d\n", MODULE_FUN_NAME(Ringbuf, is_full)(ring_buf));
+	printf("is empty: %d\n", MODULE_FUN_NAME(Ringbuf, is_empty)(ring_buf));
+	printf("left space: %d\n", MODULE_FUN_NAME(Ringbuf, left_space)(ring_buf));
+	printf("avail space: %d\n", MODULE_FUN_NAME(Ringbuf, available_data)(ring_buf));
+}
+
+	MODULE_FUN_NAME(Ringbuf, destroy)(&ring_buf);
+}
+
+
 
 struct test_routine {
 	void (*call_back)(void);
@@ -2487,7 +2554,7 @@ struct test_routine my_test_routines[] =
 //		{test_queue_array, "queue_array"},	// ko
 //		{test_stack_array, "stack_array"},	// ko
 //		{test_ap, "ap"},					// kko
-		{test_arena, "arena"},				// ko	*
+//		{test_arena, "arena"},				// ko	*
 //		{test_threadPool, "threadPool"},	// ko
 //		{test_array, "array"},				// ko
 //		{test_set, "set"},					// ko 
@@ -2513,8 +2580,8 @@ struct test_routine my_test_routines[] =
 //		{test_text, "text"},
 //		{test_str, "string"},
 //		{test_db, "db"},
-//		{test_sbit, "sbit"},					// ko 其他地方验证过ok
-//		{test_ring_buf, "ring_buf"},			// ko 其他地方验证过ok
+//		{test_sbit, "sbit"},					// ko
+		{test_ring_buf, "ring_buf"},			// ko 其他地方验证过ok
 		{NULL,NULL},
 };
 

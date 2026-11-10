@@ -67,10 +67,10 @@ T MODULE_FUN_NAME(Ringbuf, create)(unsigned int num)
 
 	T r = NULL;
 
-	r = (T)calloc(1, sizeof(*r) + num);
+	r = (T)calloc(1, sizeof(*r) + num + 1);
 	if (r)
 	{
-		r->buf_max = num;
+		r->buf_max = num + 1;
 		r->read_index = 0;
 		r->write_index = 0;
 		r->buf = ((unsigned char *)r) + sizeof(*r);
