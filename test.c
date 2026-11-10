@@ -2554,7 +2554,7 @@ struct test_routine my_test_routines[] =
 //		{test_queue_array, "queue_array"},	// ko
 //		{test_stack_array, "stack_array"},	// ko
 //		{test_ap, "ap"},					// kko
-//		{test_arena, "arena"},				// ko	*
+		{test_arena, "arena"},				// ko	*
 //		{test_threadPool, "threadPool"},	// ko
 //		{test_array, "array"},				// ko
 //		{test_set, "set"},					// ko 
@@ -2581,7 +2581,7 @@ struct test_routine my_test_routines[] =
 //		{test_str, "string"},
 //		{test_db, "db"},
 //		{test_sbit, "sbit"},					// ko
-		{test_ring_buf, "ring_buf"},			// ko 其他地方验证过ok
+//		{test_ring_buf, "ring_buf"},			// ko
 		{NULL,NULL},
 };
 
