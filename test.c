@@ -2467,14 +2467,14 @@ struct test_routine my_test_routines[] =
 //		{test_gve, "gve"},					// ko
 //		{test_gve_array, "gve_array"},					// ko
 //		{test_sential_list, "sential_list"},					// ko
+//		{test_binary_tree, "binary_tree"},		// ko
+//		{test_thread_pool, "thread_pool"},			// ko
 //		{test_mp, "mp"},
 //		{test_text, "text"},
 //		{test_str, "string"},
 //		{test_db, "db"},
-//		{test_binary_tree, "binary_tree"},		// ko
 //		{test_sbit, "sbit"},					// ko 其他地方验证过ok
 //		{test_ring_buf, "ring_buf"},			// ko 其他地方验证过ok
-//		{test_thread_pool, "thread_pool"},			//
 		{NULL,NULL},
 };
 
