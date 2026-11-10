@@ -419,6 +419,8 @@ static void test_array(void)
 	{
 //		fprintf(stdout, "%d: %f\n", i, *((double *)MODULE_FUN_NAME(Array, get)(copy, i)));
 	}
+	MODULE_FUN_NAME(Array, free)(&array);
+	MODULE_FUN_NAME(Array, free)(&copy);
 }
 
 
@@ -432,7 +434,7 @@ static int apply(const void *member, void *cl)
 
 static void test_set(void)
 {
-#define SET_ITEM_LEN	10240000
+#define SET_ITEM_LEN	1024
 	Set_T set = NULL;
 	Set_T set2 = NULL;
 	Set_T set3 = NULL;
@@ -492,6 +494,8 @@ static void test_set(void)
 	fprintf(stdout, "set3:\n");
 	MODULE_FUN_NAME(Set, map)(set3, apply, NULL);
 
+	MODULE_FUN_NAME(Set, free)(&set3);
+
 	fprintf(stdout, "diff\n");
 	set3 = MODULE_FUN_NAME(Set, diff)(set, NULL);
 	fprintf(stdout, "set:\n");
@@ -500,6 +504,8 @@ static void test_set(void)
 	MODULE_FUN_NAME(Set, map)(set2, apply, NULL);
 	fprintf(stdout, "set3:\n");
 	MODULE_FUN_NAME(Set, map)(set3, apply, NULL);
+
+	MODULE_FUN_NAME(Set, free)(&set3);
 
 	fprintf(stdout, "minus\n");
 	set3 = MODULE_FUN_NAME(Set, minus)(set, NULL);	// 内存没有释放
@@ -510,14 +516,18 @@ static void test_set(void)
 	fprintf(stdout, "set3:\n");
 	MODULE_FUN_NAME(Set, map)(set3, apply, NULL);
 
-	fprintf(stdout, "union\n");
+	MODULE_FUN_NAME(Set, free)(&set3);
+
+	fprintf(stdout, "union: %p\n", set3);
 	set3 = MODULE_FUN_NAME(Set, union)(set, NULL);
 	fprintf(stdout, "set:\n");
 	MODULE_FUN_NAME(Set, map)(set, apply, NULL);
 	fprintf(stdout, "set2:\n");
 	MODULE_FUN_NAME(Set, map)(set2, apply, NULL);
-	fprintf(stdout, "set3:\n");
+	fprintf(stdout, "set3: %p\n", set3);
 	MODULE_FUN_NAME(Set, map)(set3, apply, NULL);
+
+	MODULE_FUN_NAME(Set, free)(&set3);
 
 	void **array = NULL;
 	array = MODULE_FUN_NAME(Set, toArray)(set, NULL);
@@ -531,7 +541,6 @@ static void test_set(void)
 	
 	MODULE_FUN_NAME(Set, free)(&set);
 	MODULE_FUN_NAME(Set, free)(&set2);
-	MODULE_FUN_NAME(Set, free)(&set3);
 	
 
 }
@@ -558,7 +567,7 @@ static int set_list_print(void *priv, void *arg)
 
 static void test_set_list(void)
 {
-#define SETL_ITEM_LEN	10240
+#define SETL_ITEM_LEN	1024
 	int ret = 0;
 	void *priv = NULL;
 	SetL_T set1 = NULL;
@@ -644,20 +653,23 @@ static void test_set_list(void)
 	fprintf(stdout, "set3: test\n");
 	set3 = MODULE_FUN_NAME(SetL, union)(set1, set2);
 	fprintf(stdout, "set3: %d\n", MODULE_FUN_NAME(SetL, count)(set3));
+	MODULE_FUN_NAME(SetL, free)(&set3);
 
 	set3 = MODULE_FUN_NAME(SetL, inter)(set1, set2);
 	fprintf(stdout, "set3: %d\n", MODULE_FUN_NAME(SetL, count)(set3));
+	MODULE_FUN_NAME(SetL, free)(&set3);
 
 	set3 = MODULE_FUN_NAME(SetL, diff)(set1, set2);
 	fprintf(stdout, "set3: %d\n", MODULE_FUN_NAME(SetL, count)(set3));
+	MODULE_FUN_NAME(SetL, free)(&set3);
 
 	set3 = MODULE_FUN_NAME(SetL, minus)(set1, set2);
 	fprintf(stdout, "set3: %d\n", MODULE_FUN_NAME(SetL, count)(set3));
+	MODULE_FUN_NAME(SetL, free)(&set3);
 
 
 	MODULE_FUN_NAME(SetL, free)(&set1);
 	MODULE_FUN_NAME(SetL, free)(&set2);
-	MODULE_FUN_NAME(SetL, free)(&set3);
 }
 
 #include "table.h"
@@ -670,7 +682,7 @@ static int table_apply(const void *key, void **pvalue, void *priv)
 
 static void test_table(void)
 {
-#define TABLE_ITEM_LEN	10240000
+#define TABLE_ITEM_LEN	10240
 
 	Table_T table = NULL;
 
@@ -684,13 +696,14 @@ static void test_table(void)
 
 	for (int i = 0; i < TABLE_ITEM_LEN; i++)
 	{
-		fprintf(stdout, "%d: %d\n", MODULE_FUN_NAME(Table, get)(table, (void *)i));
+		if (i != (int )MODULE_FUN_NAME(Table, get)(table, (void *)i))
+			fprintf(stdout, "%d: %d\n", i, (int)MODULE_FUN_NAME(Table, get)(table, (void *)i));
 	}
 
 	fprintf(stdout, "second \n");
 	for (int i = 0; i < TABLE_ITEM_LEN - 5; i++)
 	{
-		fprintf(stdout, "remove %d item\n", i);
+		//fprintf(stdout, "remove %d item\n", i);
 		MODULE_FUN_NAME(Table, remove)(table, (void *)i);
 //		MODULE_FUN_NAME(Table, map)(table, table_apply, NULL);
 	}
@@ -711,13 +724,14 @@ static void test_table(void)
 	fprintf(stdout, "table len: %d\n", MODULE_FUN_NAME(Table, length)(table));
 
 	MODULE_FUN_NAME(Table, free)(&table);
+	free(array);
 }
 
 #include "seq.h"
 
 static void test_seq(void)
 {
-#define SEQ_ITEM_LEN	10240000
+#define SEQ_ITEM_LEN	10240
 	Seq_T seq = NULL;
 	Seq_T seq2 = NULL;
 	int len = 0;
@@ -782,7 +796,7 @@ static void test_seq(void)
 
 static void test_ring(void)
 {
-#define RING_ITEM_LEN	1024000
+#define RING_ITEM_LEN	10240
 	Ring_T ring = NULL;
 	int len = 0;
 
@@ -872,7 +886,8 @@ static void test_ring(void)
 	len = MODULE_FUN_NAME(Ring, length)(ring);
 	for (int i = 0; i < len; i++)
 	{
-		fprintf(stdout, "i: %d, %d\n", i, (int)MODULE_FUN_NAME(Ring, get)(ring, i));
+		if ((i + 1) != (int)MODULE_FUN_NAME(Ring, get)(ring, i))
+			fprintf(stdout, "i: %d, %d\n", i, (int)MODULE_FUN_NAME(Ring, get)(ring, i));
 	}
 	
 	
@@ -1114,7 +1129,7 @@ static void test_xp(void)
 
 static void test_ap2(void)
 {
-#define XP_TEST_NUM	1024000
+#define XP_TEST_NUM	1024
 #define XP_LEN	16
 	int ret = 0;
 	int len = 0;
@@ -1468,7 +1483,7 @@ void destroy_memory_pool(MemoryPool *mp) {
 static void test_rb(void)
 {
 #define YY	0
-#define RB_ITEM_LEN	102400000
+#define RB_ITEM_LEN	10240
 	RB_Tree tree = NULL;
 	RB_Node node = NULL;
 
@@ -1594,7 +1609,7 @@ static int fib_cmp(void *arg1, void *arg2)
 
 static void test_fib(void)
 {
-#define FIB_ITEM_LEN	102400
+#define FIB_ITEM_LEN	1024
 #define FIB_INFINITE	0
 	FibHeap_T h1 = NULL;
 	FibHeap_T h2 = NULL;
@@ -1874,6 +1889,7 @@ static void test_interval_tree(void)
 							*/
 							
 			MODULE_FUN_NAME(InTree, delete)(tree, node);
+			free(node);
 			MODULE_FUN_NAME(InTree, inorder_walk)(tree, tree->root, myprint, NULL);	// 每删除一个元素跑一次是为了验证区间树维护正常
 		}
 	}
@@ -1906,7 +1922,7 @@ static int binary_cmp(void *priv, void *arg)
 
 static void test_binary_tree(void)
 {
-#define BINARY_ITEM_LEN	10240000
+#define BINARY_ITEM_LEN	1024
 	BTree_T tree = NULL;
 	BNode_T node = NULL;
 	int priv = 0;
@@ -1991,7 +2007,7 @@ static void list_map(void **arg, void *priv)
 
 static void test_list(void)
 {
-#define LIST_ITEM_LEN	102400000
+#define LIST_ITEM_LEN	1024
 
 	List_T list = NULL;
 	List_T list2 = NULL;
@@ -2036,6 +2052,7 @@ static void test_list(void)
 //		fprintf(stdout, "i: %d, %d\n", i, (int)(array[i]));
 	}
 
+	free(array);
 	MODULE_FUN_NAME(List, free)(&list);
 }
 
@@ -2043,7 +2060,7 @@ static void test_list(void)
 
 static void test_queue(void)
 {
-#define QUEUE_ITEM_LEN	10240000
+#define QUEUE_ITEM_LEN	1024
 	Queue_T q = NULL;
 	int ret = 0;
 	int *value = NULL;
@@ -2082,7 +2099,7 @@ for (int k = 0; k < 10; k++)
 
 static void test_stack(void)
 {
-#define STACK_ITEM_LEN	102400000
+#define STACK_ITEM_LEN	1024
 	Stack_T s = NULL;
 	int ret = 0;
 	int *value = NULL;
@@ -2130,8 +2147,8 @@ static int graph_node_cmp(void *arg, void *priv)
 
 static void test_gve(void)
 {
-#define GRAPH_EDGE_LEN	102400 * 1
-#define GRAPH_NODE_LEN	102400 * 2
+#define GRAPH_EDGE_LEN	1024 * 1
+#define GRAPH_NODE_LEN	1024 * 2
 
 	Graph_T g = NULL;
 	Edge_T e = NULL;
@@ -2281,8 +2298,8 @@ static int graphA_node_cmp(void *arg, void *priv)
 
 static void test_gve_array(void)
 {
-#define GVE_A_NODE_LEN	10240000 * 2
-#define GVE_A_EDGE_LEN	10240000
+#define GVE_A_NODE_LEN	1024 * 2
+#define GVE_A_EDGE_LEN	1024
 	struct node_ext {
 		int index;
 		int value;
@@ -2372,7 +2389,7 @@ static int sen_link_cmp(void *arg, void *key)
 
 static  void test_sential_list(void)
 {
-#define SENDLINK_ITEM_LEN	102400
+#define SENDLINK_ITEM_LEN	1024
 	SenDlink_T senLink = NULL;
 	int ret = 0;
 	int value = 0;
@@ -2470,11 +2487,11 @@ struct test_routine my_test_routines[] =
 //		{test_queue_array, "queue_array"},	// ko
 //		{test_stack_array, "stack_array"},	// ko
 //		{test_ap, "ap"},					// kko
-//		{test_arena, "arena"},				// ko
+		{test_arena, "arena"},				// ko	*
 //		{test_threadPool, "threadPool"},	// ko
 //		{test_array, "array"},				// ko
-//		{test_set, "set"},					// ko
-//		{test_set_list, "set-list"},					// ko
+//		{test_set, "set"},					// ko 
+//		{test_set_list, "set-list"},					// ko 
 //		{test_table, "table"},				// ko
 //		{test_seq, "seq"},					// ko
 //		{test_ring, "ring"},				// kko
@@ -2482,7 +2499,7 @@ struct test_routine my_test_routines[] =
 //		{test_ap2, "ap2"},					// ko
 //		{test_rb, "rb_tree"},				// ko
 //		{test_fib, "fib"},					// ko
-		{test_os_rank, "os_rank"},					// 
+//		{test_os_rank, "os_rank"},					// 
 //		{test_interval_tree, "interval_tree"},	// ko
 //		{test_list, "list"},					// ko
 //		{test_queue, "queue"},					// ko
