@@ -1707,6 +1707,8 @@ static void test_os_rank(void)
 #define OS_RANK_ITEM_LEN	1024
 	OsRank_T osrank_tree = NULL;
 	OsRank_Node	node = NULL;
+	OsRank_Node	pre_node = NULL;
+	OsRank_Node	aft_node = NULL;
 
 	osrank_tree = MODULE_FUN_NAME(OsRank, new)(osrank_cmp);
 
@@ -1716,6 +1718,23 @@ static void test_os_rank(void)
 		node->key = (void *)(i + 1);
 		MODULE_FUN_NAME(OsRank, insert)(osrank_tree, node);
 	}
+
+	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
+	{
+		node = MODULE_FUN_NAME(OsRank, select)(osrank_tree, (i + 1));
+		pre_node = MODULE_FUN_NAME(OsRank, predecessor)(osrank_tree, node);
+		if (pre_node == NULL)
+		{
+			printf("not found %d's prev node\n", (i + 1));
+		}
+
+		aft_node = MODULE_FUN_NAME(OsRank, successor)(osrank_tree, node);
+		if (aft_node == NULL)
+		{
+			printf("not found %d's after node\n", (i + 1));
+		}
+	}
+
 
 	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
 	{
@@ -1735,7 +1754,8 @@ static void test_os_rank(void)
 
 	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
 	{
-		node = MODULE_FUN_NAME(OsRank, search)(osrank_tree, (void *)(i + 1));
+//		node = MODULE_FUN_NAME(OsRank, search)(osrank_tree, (void *)(i + 1));
+		node = MODULE_FUN_NAME(OsRank, iterative_search)(osrank_tree, (void *)(i + 1));
 		if (node == NULL)
 		{
 			printf("search not found: %d\n", (i + 1));

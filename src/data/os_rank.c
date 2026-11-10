@@ -73,7 +73,7 @@ static NODE tree_minimum(T tree, NODE x)
 		count++;
 		x = x->left;
 	}
-	fprintf(stdout, "%s: count: %d\n", __func__, count);
+//	fprintf(stdout, "%s: count: %d\n", __func__, count);
 
 	return x;
 }
@@ -100,7 +100,7 @@ static NODE tree_maximum(T tree, NODE x)
 		x = x->right;
 	}
 
-	fprintf(stdout, "%s: count: %d\n", __func__, count);
+//	fprintf(stdout, "%s: count: %d\n", __func__, count);
 	return x;
 }
 
