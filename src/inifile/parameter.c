@@ -164,6 +164,11 @@ parameters_t *_copy_parameters(parameters_t *params)
 			_add_param(copy, p->value, p->key);
 			p = p->next;
 		}
+		return copy;
+	}
+	else
+	{
+		return NULL;
 	}
 }
 
