@@ -1726,7 +1726,10 @@ static void test_os_rank(void)
 		}
 		else
 		{
-//			printf("node->key: %d\n", (int)node->key);
+			if ((i + 1) != MODULE_FUN_NAME(OsRank, rank)(osrank_tree, node))
+			{
+				printf("error: %d, %d\n", (i + 1), (int)node->key);
+			}
 		}
 	}
 
@@ -2457,9 +2460,9 @@ struct test_routine my_test_routines[] =
 //		{test_ring, "ring"},				// kko
 //		{test_xp, "xp"},					// ko
 //		{test_ap2, "ap2"},					// ko
-		{test_rb, "rb_tree"},				// ko
+//		{test_rb, "rb_tree"},				// ko
 //		{test_fib, "fib"},					// ko
-//		{test_os_rank, "os_rank"},					// 
+		{test_os_rank, "os_rank"},					// 
 //		{test_interval_tree, "interval_tree"},	// ko
 //		{test_list, "list"},					// ko
 //		{test_queue, "queue"},					// ko
