@@ -1683,9 +1683,65 @@ static void test_fib(void)
 
 #include "os_rank.h"
 
+static int osrank_cmp(void *arg1, void *arg2)
+{
+	unsigned long num1 = (unsigned long )arg1;
+	unsigned long num2 = (unsigned long )arg2;
+
+	if (num1 > num2)
+	{
+		return 1;
+	}
+	else if (num1 == num2)
+	{
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 static void test_os_rank(void)
 {
 #define OS_RANK_ITEM_LEN	1024
+	OsRank_T osrank_tree = NULL;
+	OsRank_Node	node = NULL;
+
+	osrank_tree = MODULE_FUN_NAME(OsRank, new)(osrank_cmp);
+
+	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
+	{
+		node = (OsRank_Node)calloc(1, sizeof(*node));
+		node->key = (void *)(i + 1);
+		MODULE_FUN_NAME(OsRank, insert)(osrank_tree, node);
+	}
+
+	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
+	{
+		node = MODULE_FUN_NAME(OsRank, select)(osrank_tree, (i + 1));
+		if (node == NULL)
+		{
+			printf("select not found: %d\n", (i + 1));
+		}
+		else
+		{
+//			printf("node->key: %d\n", (int)node->key);
+		}
+	}
+
+	for (int i = 0; i < OS_RANK_ITEM_LEN; i++)
+	{
+		node = MODULE_FUN_NAME(OsRank, search)(osrank_tree, (void *)(i + 1));
+		if (node == NULL)
+		{
+			printf("search not found: %d\n", (i + 1));
+		}
+		MODULE_FUN_NAME(OsRank, delete)(osrank_tree, node);
+		free(node);
+	}
+
+	MODULE_FUN_NAME(OsRank, free)(&osrank_tree);
 }
 
 #include "interval_tree.h"
