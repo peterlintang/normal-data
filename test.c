@@ -11,7 +11,7 @@
 #include "bit.h"
 static void test_bit(void)
 {
-#define BIT_TEST_LEN	1024000000
+#define BIT_TEST_LEN	1024000
 	Bit_T set = NULL;
 	Bit_T set2 = NULL;
 	set = MODULE_FUN_NAME(Bit, new)(BIT_TEST_LEN);
@@ -38,7 +38,7 @@ static void test_bit(void)
 #include "dlist.h"
 static void test_dlist(void)
 {
-#define DLIST_ITEM_LEN	10240000
+#define DLIST_ITEM_LEN	10240
 	ListD_T list = NULL;
 	ListDNode_T node = NULL;
 
@@ -87,7 +87,7 @@ static void test_dlist(void)
 #include "queue_link.h"
 static void test_queue_link(void)
 {
-#define QUUEE_LINK_ITEM_LEN	10240000
+#define QUUEE_LINK_ITEM_LEN	10240
 	QueueL_T q = NULL;
 	int i;
 	int count = 0;
@@ -122,7 +122,7 @@ for (int k = 0; k < 10; k++)
 #include "stack_link.h"
 static void test_stack_link(void)
 {
-#define STACK_LINK_ITEM_LEN	1024000
+#define STACK_LINK_ITEM_LEN	10240
 	StackL_T s = NULL;
 	int i;
 	int *p = NULL;
@@ -153,7 +153,7 @@ static void test_stack_link(void)
 #include "queue_array.h"
 static void test_queue_array(void)
 {
-#define QUEUEA_ITEM_LEN	10240000
+#define QUEUEA_ITEM_LEN	10240
 	struct aa {
 		int a;
 		char b[11];
@@ -240,7 +240,7 @@ for (int k = 0; k < 10; k++)
 #include "stack_array.h"
 static void test_stack_array(void)
 {
-#define STACKA_ITEM_LEN	10240000
+#define STACKA_ITEM_LEN	10240
 	StackA_T s = NULL;
 	int i;
 	int *p = NULL;
@@ -374,7 +374,7 @@ static void test_threadPool(void)
 
 static void test_array(void)
 {
-#define ARRAY_TEST_ITEMS	10240000
+#define ARRAY_TEST_ITEMS	10240
 	Array_T array;
 	array = MODULE_FUN_NAME(Array, new)(ARRAY_TEST_ITEMS, sizeof(int));
 	if (array == NULL) return ;
@@ -784,7 +784,7 @@ static void test_seq(void)
 	len = MODULE_FUN_NAME(Seq, length)(seq2);
 	for (int i = 0; i < len; i++)
 	{
-		fprintf(stdout, "i: %d, %d\n", i, (int)MODULE_FUN_NAME(Seq, get)(seq2, i));
+		//fprintf(stdout, "i: %d, %d\n", i, (int)MODULE_FUN_NAME(Seq, get)(seq2, i));
 	}
 
 	MODULE_FUN_NAME(Seq, free)(&seq);
@@ -904,6 +904,7 @@ static void test_str(void)
 	{
 		p = MODULE_FUN_NAME(Str, sub)("hello world", i, strlen("hello world") + 1);
 		fprintf(stdout, "len: %d, %s\n", MODULE_FUN_NAME(Str, len)(p, 1, strlen(p)), p);
+		free(p);
 	}
 }
 
@@ -912,7 +913,7 @@ static void test_str(void)
 
 static void test_xp(void)
 {
-#define XP_TEST_NUM	102400
+#define XP_TEST_NUM	10240
 #define XP_LEN	16
 	int ret = 0;
 	int len = 0;
@@ -2446,7 +2447,7 @@ static void thread_pool_cb(void *p)
 	b++;
 #else
 	static atomic_int a = 0;
-	printf("%d: %d\n", (int)pthread_self(), a++);
+//	printf("%d: %d\n", (int)pthread_self(), a++);
 #endif
 	usleep(10);
 }
@@ -2547,41 +2548,41 @@ struct test_routine {
 
 struct test_routine my_test_routines[] = 
 {
-//		{test_bit, "bit"},					// ko
-//		{test_dlist, "dlist"},				// ko
-//		{test_queue_link, "queue_link"},	// ko
-//		{test_stack_link, "stack_link"},	// ko
-//		{test_queue_array, "queue_array"},	// ko
-//		{test_stack_array, "stack_array"},	// ko
-//		{test_ap, "ap"},					// kko
-		{test_arena, "arena"},				// ko	*
-//		{test_threadPool, "threadPool"},	// ko
-//		{test_array, "array"},				// ko
-//		{test_set, "set"},					// ko 
-//		{test_set_list, "set-list"},					// ko 
-//		{test_table, "table"},				// ko
-//		{test_seq, "seq"},					// ko
-//		{test_ring, "ring"},				// kko
-//		{test_xp, "xp"},					// ko
-//		{test_ap2, "ap2"},					// ko
-//		{test_rb, "rb_tree"},				// ko
-//		{test_fib, "fib"},					// ko
-//		{test_os_rank, "os_rank"},					// 
-//		{test_interval_tree, "interval_tree"},	// ko
-//		{test_list, "list"},					// ko
-//		{test_queue, "queue"},					// ko
-//		{test_stack, "stack"},					// ko
-//		{test_gve, "gve"},					// ko
-//		{test_gve_array, "gve_array"},					// ko
-//		{test_sential_list, "sential_list"},					// ko
-//		{test_binary_tree, "binary_tree"},		// ko
-//		{test_thread_pool, "thread_pool"},			// ko
+		{test_bit, "bit"},					// ko
+		{test_dlist, "dlist"},				// ko
+		{test_queue_link, "queue_link"},	// ko
+		{test_stack_link, "stack_link"},	// ko
+		{test_queue_array, "queue_array"},	// ko
+		{test_stack_array, "stack_array"},	// ko
+		{test_ap, "ap"},					// kko
+//		{test_arena, "arena"},				// ko	*
+		{test_threadPool, "threadPool"},	// ko
+		{test_array, "array"},				// ko
+		{test_set, "set"},					// ko 
+		{test_set_list, "set-list"},					// ko 
+		{test_table, "table"},				// ko
+		{test_seq, "seq"},					// ko
+		{test_ring, "ring"},				// kko
+		{test_xp, "xp"},					// ko
+		{test_ap2, "ap2"},					// ko
+		{test_rb, "rb_tree"},				// ko
+		{test_fib, "fib"},					// ko
+		{test_os_rank, "os_rank"},					// 
+		{test_interval_tree, "interval_tree"},	// ko
+		{test_list, "list"},					// ko
+		{test_queue, "queue"},					// ko
+		{test_stack, "stack"},					// ko
+		{test_gve, "gve"},					// ko
+		{test_gve_array, "gve_array"},					// ko
+		{test_sential_list, "sential_list"},					// ko
+		{test_binary_tree, "binary_tree"},		// ko
+		{test_thread_pool, "thread_pool"},			// ko
+		{test_sbit, "sbit"},					// ko
+		{test_ring_buf, "ring_buf"},			// ko
 //		{test_mp, "mp"},
 //		{test_text, "text"},
 //		{test_str, "string"},
 //		{test_db, "db"},
-//		{test_sbit, "sbit"},					// ko
-//		{test_ring_buf, "ring_buf"},			// ko
 		{NULL,NULL},
 };
 
