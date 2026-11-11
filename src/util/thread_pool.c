@@ -250,6 +250,7 @@ int MODULE_FUN_NAME(ThreadPool, post)(
 	ret = MODULE_FUN_NAME(QueueL, put)(p->queue, task);
 	if (0 != ret)
 	{
+		free(task);
 		goto out;
 	}
 
