@@ -14,6 +14,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdatomic.h>
 
 #include "queue_link.h"
 
@@ -191,7 +192,7 @@ int MODULE_FUN_NAME(ThreadPool, init)(T p)
 int MODULE_FUN_NAME(ThreadPool, destroy)(T p)
 {
 	int i;
-	volatile int flag = 0;
+	volatile atomic_int flag = 0;
 
 	assert(p);
 
