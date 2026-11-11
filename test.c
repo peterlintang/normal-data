@@ -1410,86 +1410,18 @@ int rb_print(void *priv, void *arg)
 	return 0;
 }
 
-// ==========================================
-// 2. 内存池结构体定义
-// ==========================================
-typedef struct MemoryPool {
-    RB_Node pool_buffer;    // 指向一次性申请的超大连续内存块
-    RB_Node *free_list;     // 回收站（空闲链表栈），用于存放被 free 的节点指针
-    int max_nodes;          // 内存池容量上限
-    int next_available;     // 大内存块中下一个未被使用的节点下标
-    int free_top;           // 回收站栈顶指针
-} MemoryPool;
 
-// ==========================================
-// 3. 内存池核心操作接口
-// ==========================================
-
-MemoryPool* init_memory_pool(int max_nodes)
-{
-    MemoryPool *mp = (MemoryPool *)malloc(sizeof(MemoryPool));
-    if (!mp) return NULL;
-
-    mp->max_nodes = max_nodes;
-    mp->next_available = 0;
-    mp->free_top = 0;
-
-    RB_Node node = NULL;
-    mp->pool_buffer = (RB_Node)malloc(sizeof(*node) * max_nodes);
-    mp->free_list = (RB_Node *)malloc(sizeof(node) * max_nodes);
-
-    memset(mp->pool_buffer, 0, sizeof(*node) * max_nodes);
-    memset(mp->free_list, 0, sizeof(node) * max_nodes);
-
-    if (!mp->pool_buffer || !mp->free_list) {
-        if (mp->pool_buffer) free(mp->pool_buffer);
-        if (mp->free_list) free(mp->free_list);
-        free(mp);
-        return NULL;
-    }
-    return mp;
-}
-
-static inline RB_Node pool_alloc_node(MemoryPool *mp) {
-    if (mp->free_top > 0) {
-        mp->free_top--;
-        return mp->free_list[mp->free_top];
-    }
-
-    if (mp->next_available < mp->max_nodes) {
-        RB_Node node = &mp->pool_buffer[mp->next_available];
-        mp->next_available++;
-        return node;
-    }
-
-    return NULL;
-}
-
-static inline void pool_free_node(MemoryPool *mp, RB_Node node) {
-    if (!node) return;
-
-    mp->free_list[mp->free_top] = node;
-    mp->free_top++;
-}
-
-void destroy_memory_pool(MemoryPool *mp) {
-    if (!mp) return;
-    free(mp->pool_buffer);
-    free(mp->free_list);
-    free(mp);
-}
-
-
+#include "mempool.h"
 
 static void test_rb(void)
 {
 #define YY	0
-#define RB_ITEM_LEN	10240
+#define RB_ITEM_LEN	1024000
 	RB_Tree tree = NULL;
 	RB_Node node = NULL;
 
 	MemoryPool *mp = NULL;
-	mp = init_memory_pool(RB_ITEM_LEN);
+	mp = init_memory_pool(RB_ITEM_LEN, sizeof(*node));
 	if (mp == NULL)
 	{
 		printf("%s: no mem\n", __func__);
@@ -1511,7 +1443,7 @@ static void test_rb(void)
 			printf("no mem\n");
 		}
 #else
-		node = pool_alloc_node(mp);
+		node = (RB_Node)pool_alloc_node(mp);
 		if (node == NULL)
 		{
 			printf("no mem\n");
