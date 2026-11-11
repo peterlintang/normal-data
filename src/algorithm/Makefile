@@ -30,7 +30,8 @@ COMMUNICATE_SRCS := \
 					./max-heapify-sort.c \
 					./min-heapify-sort.c \
 					./counting-sort.c \
-					./components.c 
+					./components.c  \
+					./bubble-sort.c
 
 COMMUNICATE_OBJS := \
 					./gve-normal.o \
@@ -51,7 +52,8 @@ COMMUNICATE_OBJS := \
 					./max-heapify-sort.o \
 					./min-heapify-sort.o \
 					./counting-sort.o \
-					./components.o 
+					./components.o  \
+					./bubble-sort.o
 
 all: $(LIBS)
 
