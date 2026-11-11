@@ -9,7 +9,7 @@
 
 typedef struct MemoryPool MemoryPool;
 
-MemoryPool* init_memory_pool(int max_nodes, int node_size);
+MemoryPool* init_memory_pool(unsigned int max_nodes, unsigned int node_size);
 
 void *pool_alloc_node(MemoryPool *mp);
 

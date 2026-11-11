@@ -12,14 +12,14 @@
 struct MemoryPool {
     void *pool_buffer;    // 指向一次性申请的超大连续内存块
     void **free_list;     // 回收站（空闲链表栈），用于存放被 free 的节点指针
-    int node_size;	  // one node occupy spaces
-    int max_nodes;          // 内存池容量上限
-    int next_available;     // 大内存块中下一个未被使用的节点下标
-    int free_top;           // 回收站栈顶指针
+    unsigned int node_size;	  // one node occupy spaces
+    unsigned int max_nodes;          // 内存池容量上限
+    unsigned int next_available;     // 大内存块中下一个未被使用的节点下标
+    unsigned int free_top;           // 回收站栈顶指针
 };
 
 
-MemoryPool* init_memory_pool(int max_nodes, int node_size)
+MemoryPool* init_memory_pool(unsigned int max_nodes, unsigned int node_size)
 {
     MemoryPool *mp = (MemoryPool *)malloc(sizeof(MemoryPool));
     if (!mp) return NULL;
@@ -31,10 +31,6 @@ MemoryPool* init_memory_pool(int max_nodes, int node_size)
 
     mp->pool_buffer = (void *)malloc(node_size * max_nodes);
     mp->free_list = (void **)malloc(sizeof(void *) * max_nodes);
-
-    memset(mp->pool_buffer, 0, node_size * max_nodes);
-    memset(mp->free_list, 0, sizeof(void *) * max_nodes);
-
     if (!mp->pool_buffer || !mp->free_list) 
     {
         if (mp->pool_buffer) free(mp->pool_buffer);
@@ -42,6 +38,10 @@ MemoryPool* init_memory_pool(int max_nodes, int node_size)
         free(mp);
         return NULL;
     }
+
+    memset(mp->pool_buffer, 0, node_size * max_nodes);
+    memset(mp->free_list, 0, sizeof(void *) * max_nodes);
+
     return mp;
 }
 
