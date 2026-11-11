@@ -57,6 +57,7 @@ DATA_SRCS := ./ap.c			\
 		./aes/pcbc.c		\
 		./aes/aes.c		\
 		./buffer_data.c		\
+		./mempool.c		\
 #		./mysql.c
 
 
@@ -106,6 +107,7 @@ DATA_OBJS := ./ap.o			\
 		./aes/pcbc.o		\
 		./aes/aes.o		\
 		./buffer_data.o		\
+		./mempool.o		\
 #		./mysql.o
 
 

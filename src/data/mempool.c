@@ -4,21 +4,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "mempool.h"
+
 // ==========================================
-// 2. 内存池结构体定义
+// 内存池结构体定义
 // ==========================================
-typedef struct MemoryPool {
+struct MemoryPool {
     void *pool_buffer;    // 指向一次性申请的超大连续内存块
     void **free_list;     // 回收站（空闲链表栈），用于存放被 free 的节点指针
     int node_size;	  // one node occupy spaces
     int max_nodes;          // 内存池容量上限
     int next_available;     // 大内存块中下一个未被使用的节点下标
     int free_top;           // 回收站栈顶指针
-} MemoryPool;
+};
 
-// ==========================================
-// 3. 内存池核心操作接口
-// ==========================================
 
 MemoryPool* init_memory_pool(int max_nodes, int node_size)
 {
