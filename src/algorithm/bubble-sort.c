@@ -7,7 +7,7 @@
  * @param arr 待排序数组
  * @param n   数组长度
  */
-void bubbleSort(void **arr, int n, int (*cmp)(void *, void *)) 
+void bubble_sort(void **arr, int n, int (*cmp)(void *, void *)) 
 {
     int i, j;
     void *temp = NULL;
@@ -26,7 +26,7 @@ void bubbleSort(void **arr, int n, int (*cmp)(void *, void *))
     }
 }
 
-#if 1
+#if 0
 static int cmp(void *priv_a, void *priv_b)
 {
 	int a = (int)priv_a;
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     }
     printf("\n");
 
-    bubbleSort(arr, n, cmp);
+    bubble_sort(arr, n, cmp);
 
     for (int i = 0; i < n; i++) 
     {
