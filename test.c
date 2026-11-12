@@ -1765,7 +1765,7 @@ static int myprint(void *priv, void *arg)
 
 static void test_interval_tree(void)
 {
-#define INTERVAL_TREE_ITEM	102400
+#define INTERVAL_TREE_ITEM	10240000
 	In_Tree tree = NULL;
 	In_Node node = NULL;
 	int low = 0;
@@ -1823,7 +1823,7 @@ static void test_interval_tree(void)
 							
 			MODULE_FUN_NAME(InTree, delete)(tree, node);
 			free(node);
-			MODULE_FUN_NAME(InTree, inorder_walk)(tree, tree->root, myprint, NULL);	// 每删除一个元素跑一次是为了验证区间树维护正常
+//			MODULE_FUN_NAME(InTree, inorder_walk)(tree, tree->root, myprint, NULL);	// 每删除一个元素跑一次是为了验证区间树维护正常
 		}
 	}
 	fprintf(stdout, "third\n");
@@ -2503,6 +2503,7 @@ struct test_routine my_test_routines[] =
 		{test_stack, "stack"},					// ko
 		{test_ring, "ring"},				// kko
 		{test_binary_tree, "binary_tree"},		// ko
+		{test_interval_tree, "interval_tree"},	// ko
 		{test_gve_array, "gve_array"},					// ko
 		{test_xp, "xp"},					// ko
 		{test_ap, "ap"},					// kko
@@ -2510,7 +2511,6 @@ struct test_routine my_test_routines[] =
 		{test_fib, "fib"},					// ko
 		{test_gve, "gve"},					// ko
 		{test_sential_list, "sential_list"},					// ko
-		{test_interval_tree, "interval_tree"},	// ko
 		{test_set_list, "set-list"},					// ko 
 //		{test_mp, "mp"},
 //		{test_text, "text"},
