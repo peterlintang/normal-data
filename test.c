@@ -11,7 +11,7 @@
 #include "bit.h"
 static void test_bit(void)
 {
-#define BIT_TEST_LEN	1024000
+#define BIT_TEST_LEN	10240000
 	Bit_T set = NULL;
 	Bit_T set2 = NULL;
 	set = MODULE_FUN_NAME(Bit, new)(BIT_TEST_LEN);
@@ -38,7 +38,7 @@ static void test_bit(void)
 #include "dlist.h"
 static void test_dlist(void)
 {
-#define DLIST_ITEM_LEN	10240
+#define DLIST_ITEM_LEN	10240000
 	ListD_T list = NULL;
 	ListDNode_T node = NULL;
 
@@ -87,7 +87,7 @@ static void test_dlist(void)
 #include "queue_link.h"
 static void test_queue_link(void)
 {
-#define QUUEE_LINK_ITEM_LEN	10240
+#define QUUEE_LINK_ITEM_LEN	10240000
 	QueueL_T q = NULL;
 	int i;
 	int count = 0;
@@ -122,7 +122,7 @@ for (int k = 0; k < 10; k++)
 #include "stack_link.h"
 static void test_stack_link(void)
 {
-#define STACK_LINK_ITEM_LEN	10240
+#define STACK_LINK_ITEM_LEN	10240000
 	StackL_T s = NULL;
 	int i;
 	int *p = NULL;
@@ -153,7 +153,7 @@ static void test_stack_link(void)
 #include "queue_array.h"
 static void test_queue_array(void)
 {
-#define QUEUEA_ITEM_LEN	10240
+#define QUEUEA_ITEM_LEN	10240000
 	struct aa {
 		int a;
 		char b[11];
@@ -240,7 +240,7 @@ for (int k = 0; k < 10; k++)
 #include "stack_array.h"
 static void test_stack_array(void)
 {
-#define STACKA_ITEM_LEN	10240
+#define STACKA_ITEM_LEN	10240000
 	StackA_T s = NULL;
 	int i;
 	int *p = NULL;
@@ -312,7 +312,7 @@ static void test_ap(void)
 #include "arena.h"
 static void test_arena(void)
 {
-#define TEST_INT_NUM	1024
+#define TEST_INT_NUM	1024000
 #define TEST_TIMES		256
 	Arena_T area = NULL;
 
@@ -351,7 +351,7 @@ static void pool_test_cb(void *cl)
 }
 static void test_threadPool(void)
 {
-#define THREADPOOL_ITEM_LEN	102400
+#define THREADPOOL_ITEM_LEN	10240000
 	int i;
 	int ret = 0;
 	ThreadPool_T p = NULL;
@@ -374,7 +374,7 @@ static void test_threadPool(void)
 
 static void test_array(void)
 {
-#define ARRAY_TEST_ITEMS	10240
+#define ARRAY_TEST_ITEMS	10240000
 	Array_T array;
 	array = MODULE_FUN_NAME(Array, new)(ARRAY_TEST_ITEMS, sizeof(int));
 	if (array == NULL) return ;
@@ -434,7 +434,7 @@ static int apply(const void *member, void *cl)
 
 static void test_set(void)
 {
-#define SET_ITEM_LEN	1024
+#define SET_ITEM_LEN	10240000
 	Set_T set = NULL;
 	Set_T set2 = NULL;
 	Set_T set3 = NULL;
@@ -567,7 +567,7 @@ static int set_list_print(void *priv, void *arg)
 
 static void test_set_list(void)
 {
-#define SETL_ITEM_LEN	1024
+#define SETL_ITEM_LEN	102400
 	int ret = 0;
 	void *priv = NULL;
 	SetL_T set1 = NULL;
@@ -682,11 +682,11 @@ static int table_apply(const void *key, void **pvalue, void *priv)
 
 static void test_table(void)
 {
-#define TABLE_ITEM_LEN	10240
+#define TABLE_ITEM_LEN	10240000
 
 	Table_T table = NULL;
 
-	table = MODULE_FUN_NAME(Table, new)(10, NULL, NULL);
+	table = MODULE_FUN_NAME(Table, new)(TABLE_ITEM_LEN, NULL, NULL);
 
 	fprintf(stdout, "first\n");
 	for (int i = 0; i < TABLE_ITEM_LEN; i++)
@@ -731,7 +731,7 @@ static void test_table(void)
 
 static void test_seq(void)
 {
-#define SEQ_ITEM_LEN	10240
+#define SEQ_ITEM_LEN	10240000
 	Seq_T seq = NULL;
 	Seq_T seq2 = NULL;
 	int len = 0;
@@ -796,7 +796,7 @@ static void test_seq(void)
 
 static void test_ring(void)
 {
-#define RING_ITEM_LEN	10240
+#define RING_ITEM_LEN	102400
 	Ring_T ring = NULL;
 	int len = 0;
 
@@ -913,7 +913,7 @@ static void test_str(void)
 
 static void test_xp(void)
 {
-#define XP_TEST_NUM	10240
+#define XP_TEST_NUM	1024000
 #define XP_LEN	16
 	int ret = 0;
 	int len = 0;
@@ -1130,7 +1130,7 @@ static void test_xp(void)
 
 static void test_ap2(void)
 {
-#define XP_TEST_NUM	1024
+#define XP_TEST_NUM	1024000
 #define XP_LEN	16
 	int ret = 0;
 	int len = 0;
@@ -1416,7 +1416,7 @@ int rb_print(void *priv, void *arg)
 static void test_rb(void)
 {
 #define YY	0
-#define RB_ITEM_LEN	1024000
+#define RB_ITEM_LEN	10240000
 	RB_Tree tree = NULL;
 	RB_Node node = NULL;
 
@@ -1479,7 +1479,7 @@ static void test_rb(void)
 #endif
 		if (node)
 		{
-//		fprintf(stdout, "delete i: %d, value: %d\n", i, (int)(node->priv));
+	//	fprintf(stdout, "delete i: %d, value: %d\n", i, (int)(node->priv));
 		MODULE_FUN_NAME(RB_Tree, delete)(tree, node);
 #if YY
 		free(node);
@@ -1542,7 +1542,7 @@ static int fib_cmp(void *arg1, void *arg2)
 
 static void test_fib(void)
 {
-#define FIB_ITEM_LEN	1024
+#define FIB_ITEM_LEN	10240
 #define FIB_INFINITE	0
 	FibHeap_T h1 = NULL;
 	FibHeap_T h2 = NULL;
@@ -1652,7 +1652,7 @@ static int osrank_cmp(void *arg1, void *arg2)
 
 static void test_os_rank(void)
 {
-#define OS_RANK_ITEM_LEN	1024
+#define OS_RANK_ITEM_LEN	10240000
 	OsRank_T osrank_tree = NULL;
 	OsRank_Node	node = NULL;
 	OsRank_Node	pre_node = NULL;
@@ -1765,7 +1765,7 @@ static int myprint(void *priv, void *arg)
 
 static void test_interval_tree(void)
 {
-#define INTERVAL_TREE_ITEM	10240
+#define INTERVAL_TREE_ITEM	102400
 	In_Tree tree = NULL;
 	In_Node node = NULL;
 	int low = 0;
@@ -1839,7 +1839,7 @@ static int inorder_walk(void *priv, void *arg)
 {
 	int num = (int)priv;
 
-	fprintf(stdout, "%d\n", num);
+//	fprintf(stdout, "%d\n", num);
 	return 0;
 }
 
@@ -1855,7 +1855,7 @@ static int binary_cmp(void *priv, void *arg)
 
 static void test_binary_tree(void)
 {
-#define BINARY_ITEM_LEN	1024
+#define BINARY_ITEM_LEN	10240000
 	BTree_T tree = NULL;
 	BNode_T node = NULL;
 	int priv = 0;
@@ -1865,6 +1865,7 @@ static void test_binary_tree(void)
 	for (int i = 0; i < BINARY_ITEM_LEN; i++)
 	{
 		priv = random() % BINARY_ITEM_LEN + 1;
+//		priv = (i) + 1;
 		node = MODULE_FUN_NAME(BTree, NodeNew)((void *)priv);
 		if (node)
 		{
@@ -1899,20 +1900,20 @@ static void test_binary_tree(void)
 
 	int count = 0;
 
-	for (int i = 0; i < BINARY_ITEM_LEN; i++)
+	for (int i = 0; i < BINARY_ITEM_LEN - 10; i++)
 	{
-		priv = random() % BINARY_ITEM_LEN + 1;
+		priv = (i) + 1;
 		node = MODULE_FUN_NAME(BTree, search)(tree, (void *)priv);
 		if (node)
 		{
 			count++;
-			fprintf(stdout, "i: %d, delete node: %d, %d\n", i, priv, (int)MODULE_FUN_NAME(BTree, NodeGetPriv)(node));
+//			fprintf(stdout, "i: %d, delete node: %d, %d\n", i, priv, (int)MODULE_FUN_NAME(BTree, NodeGetPriv)(node));
 			MODULE_FUN_NAME(BTree, delete)(tree, node);
 			MODULE_FUN_NAME(BTree, NodeFree)(&node);
 		}
 		else
 		{
-			fprintf(stdout, "i: %d, no found: %d\n", i, priv);
+//			fprintf(stdout, "i: %d, no found: %d\n", i, priv);
 		}
 	}
 
@@ -1921,7 +1922,7 @@ static void test_binary_tree(void)
 	while ((node = MODULE_FUN_NAME(BTree, minimum)(tree, NULL)) != NULL)
 	{
 		count++;
-		fprintf(stdout, "deleting: %d\n", (int)MODULE_FUN_NAME(BTree, NodeGetPriv)(node));
+//		fprintf(stdout, "deleting: %d\n", (int)MODULE_FUN_NAME(BTree, NodeGetPriv)(node));
 		MODULE_FUN_NAME(BTree, delete)(tree, node);
 		MODULE_FUN_NAME(BTree, NodeFree)(&node);
 	}
@@ -1940,7 +1941,7 @@ static void list_map(void **arg, void *priv)
 
 static void test_list(void)
 {
-#define LIST_ITEM_LEN	1024
+#define LIST_ITEM_LEN	10240000
 
 	List_T list = NULL;
 	List_T list2 = NULL;
@@ -1993,7 +1994,7 @@ static void test_list(void)
 
 static void test_queue(void)
 {
-#define QUEUE_ITEM_LEN	1024
+#define QUEUE_ITEM_LEN	10240000
 	Queue_T q = NULL;
 	int ret = 0;
 	int *value = NULL;
@@ -2032,7 +2033,7 @@ for (int k = 0; k < 10; k++)
 
 static void test_stack(void)
 {
-#define STACK_ITEM_LEN	1024
+#define STACK_ITEM_LEN	10240000
 	Stack_T s = NULL;
 	int ret = 0;
 	int *value = NULL;
@@ -2080,8 +2081,8 @@ static int graph_node_cmp(void *arg, void *priv)
 
 static void test_gve(void)
 {
-#define GRAPH_EDGE_LEN	1024 * 1
-#define GRAPH_NODE_LEN	1024 * 2
+#define GRAPH_EDGE_LEN	102400 * 1
+#define GRAPH_NODE_LEN	102400 * 2
 
 	Graph_T g = NULL;
 	Edge_T e = NULL;
@@ -2231,8 +2232,8 @@ static int graphA_node_cmp(void *arg, void *priv)
 
 static void test_gve_array(void)
 {
-#define GVE_A_NODE_LEN	1024 * 2
-#define GVE_A_EDGE_LEN	1024
+#define GVE_A_NODE_LEN	10240000 * 2
+#define GVE_A_EDGE_LEN	10240000
 	struct node_ext {
 		int index;
 		int value;
@@ -2322,7 +2323,7 @@ static int sen_link_cmp(void *arg, void *key)
 
 static  void test_sential_list(void)
 {
-#define SENDLINK_ITEM_LEN	1024
+#define SENDLINK_ITEM_LEN	102400
 	SenDlink_T senLink = NULL;
 	int ret = 0;
 	int value = 0;
@@ -2408,7 +2409,7 @@ static void test_thread_pool(void)
 #include "sbit.h"
 void test_sbit(void)
 {
-#define SBIT_ITEM_LEN	1024
+#define SBIT_ITEM_LEN	10240000
 	SBit_T	sbit = NULL;
 
 	sbit = MODULE_FUN_NAME(sbit, create)(SBIT_ITEM_LEN);
@@ -2438,7 +2439,7 @@ void test_sbit(void)
 #include "ring_buf.h"
 void test_ring_buf(void)
 {
-#define RING_BUF_ITEM_LEN	1024
+#define RING_BUF_ITEM_LEN	10240000
 	Ringbuf_T ring_buf = NULL;
 
 	ring_buf = MODULE_FUN_NAME(Ringbuf, create)(RING_BUF_ITEM_LEN);
@@ -2486,31 +2487,31 @@ struct test_routine my_test_routines[] =
 		{test_stack_link, "stack_link"},	// ko
 		{test_queue_array, "queue_array"},	// ko
 		{test_stack_array, "stack_array"},	// ko
-		{test_ap, "ap"},					// kko
-//		{test_arena, "arena"},				// ko	*
-		{test_threadPool, "threadPool"},	// ko
-		{test_array, "array"},				// ko
-		{test_set, "set"},					// ko 
-		{test_set_list, "set-list"},					// ko 
-		{test_table, "table"},				// ko
-		{test_seq, "seq"},					// ko
-		{test_ring, "ring"},				// kko
-		{test_xp, "xp"},					// ko
-		{test_ap2, "ap2"},					// ko
-		{test_rb, "rb_tree"},				// ko
-		{test_fib, "fib"},					// ko
-		{test_os_rank, "os_rank"},					// 
-		{test_interval_tree, "interval_tree"},	// ko
-		{test_list, "list"},					// ko
-		{test_queue, "queue"},					// ko
-		{test_stack, "stack"},					// ko
-		{test_gve, "gve"},					// ko
-		{test_gve_array, "gve_array"},					// ko
-		{test_sential_list, "sential_list"},					// ko
-		{test_binary_tree, "binary_tree"},		// ko
 		{test_thread_pool, "thread_pool"},			// ko
 		{test_sbit, "sbit"},					// ko
 		{test_ring_buf, "ring_buf"},			// ko
+//		{test_arena, "arena"},				// ko	*
+		{test_threadPool, "threadPool"},	// ko
+		{test_array, "array"},				// ko
+		{test_table, "table"},				// ko
+		{test_seq, "seq"},					// ko
+		{test_rb, "rb_tree"},				// ko
+		{test_os_rank, "os_rank"},					// 
+		{test_set, "set"},					// ko 
+		{test_list, "list"},					// ko
+		{test_queue, "queue"},					// ko
+		{test_stack, "stack"},					// ko
+		{test_ring, "ring"},				// kko
+		{test_binary_tree, "binary_tree"},		// ko
+		{test_gve_array, "gve_array"},					// ko
+		{test_xp, "xp"},					// ko
+		{test_ap, "ap"},					// kko
+		{test_ap2, "ap2"},					// ko
+		{test_fib, "fib"},					// ko
+		{test_gve, "gve"},					// ko
+		{test_sential_list, "sential_list"},					// ko
+		{test_interval_tree, "interval_tree"},	// ko
+		{test_set_list, "set-list"},					// ko 
 //		{test_mp, "mp"},
 //		{test_text, "text"},
 //		{test_str, "string"},
