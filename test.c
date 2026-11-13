@@ -2501,13 +2501,13 @@ struct test_routine my_test_routines[] =
 		{test_list, "list"},					// ko
 		{test_queue, "queue"},					// ko
 		{test_stack, "stack"},					// ko
-		{test_ring, "ring"},				// kko
 		{test_binary_tree, "binary_tree"},		// ko
 		{test_interval_tree, "interval_tree"},	// ko
 		{test_gve_array, "gve_array"},					// ko
 		{test_xp, "xp"},					// ko
 		{test_ap, "ap"},					// kko
 		{test_ap2, "ap2"},					// ko
+		{test_ring, "ring"},				// kko
 		{test_fib, "fib"},					// ko
 		{test_gve, "gve"},					// ko
 		{test_sential_list, "sential_list"},					// ko
